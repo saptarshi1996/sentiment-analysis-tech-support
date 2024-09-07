@@ -77,8 +77,6 @@ async def post_export(file: UploadFile = File(...)):
         file_id = str(uuid.uuid4())
         logger.info(file_id)
 
-        rows = rows[:5]  # disable this
-
         record_count = len(rows)
         logger.info(record_count)
 
