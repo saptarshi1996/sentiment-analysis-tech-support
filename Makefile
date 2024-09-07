@@ -10,3 +10,7 @@ rnwr:
 
 rnapi:
 	uvicorn api.main:app --reload --port 8081 --log-level debug
+
+# Run install
+inpip:
+	pip3 install -r requirements.txt
