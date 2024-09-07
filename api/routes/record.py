@@ -4,8 +4,7 @@ from fastapi import APIRouter, Query, HTTPException
 
 from shared.config.db import get_db
 from shared.config.logger import logger
-
-from shared.models.record import Record
+from shared.repository.record import list_records, get_sentiments
 
 record_router = APIRouter(prefix="/api/record")
 
@@ -23,20 +22,12 @@ async def list_record(
     try:
         db = get_db()
 
-        offset = (page - 1) * limit
+        records, total = list_records(db, page, limit, export_id)
 
-        query = db.query(Record)
-
-        if export_id is not None:
-            query = query.filter(Record.export_id == export_id)
-
-        total = query.count()
-
-        records = query.offset(offset=offset).limit(limit).all()
         has_prev = page > 1
         has_next = (page * limit) < total
 
-        page = {
+        page_info = {
             "page": page,
             "limit": limit,
             "total": total,
@@ -46,16 +37,10 @@ async def list_record(
             "next_page": page + 1 if has_next else None
         }
 
-        if not records:
-            return {
-                "records": [],
-                "page": page
-            }
-        else:
-            return {
-                "records": records,
-                "page": page
-            }
+        return {
+            "records": records,
+            "page": page_info
+        }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -70,30 +55,14 @@ async def sentiment():
     try:
         db = get_db()
 
-        positive = db.query(Record).filter(
-            Record.sentiment == "Positive"
-        ).count()
-        negative = db.query(Record).filter(
-            Record.sentiment == "Negative"
-        ).count()
-        neutral = db.query(Record).filter(
-            Record.sentiment == "Neutral"
-        ).count()
-        mixed = db.query(Record).filter(
-            Record.sentiment == "Mixed"
-        ).count()
+        sentiments = get_sentiments(db)
 
-        logger.info(f"Positive: {positive}")
-        logger.info(f"Negative: {negative}")
-        logger.info(f"Neutral: {neutral}")
-        logger.info(f"Mixed: {mixed}")
+        logger.info(f"Positive: {sentiments['positive']}")
+        logger.info(f"Negative: {sentiments['negative']}")
+        logger.info(f"Neutral: {sentiments['neutral']}")
+        logger.info(f"Mixed: {sentiments['mixed']}")
 
-        return {
-            "positive": positive,
-            "negative": negative,
-            "neutral": neutral,
-            "mixed": mixed
-        }
+        return sentiments
 
     except Exception as e:
         logger.error("An error occurred:", str(e))

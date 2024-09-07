@@ -1,5 +1,3 @@
-import csv
-import io
 import uuid
 import json
 import traceback
@@ -18,9 +16,11 @@ from fastapi.responses import (
 
 from shared.config.logger import logger
 from shared.config.db import get_db
-from shared.models.export import Export
-from shared.models.record import Record
 from shared.helpers.queue import send_message
+from shared.helpers.csv import read_csv, write_csv
+from shared.repository.export import (
+    list_exports, add_export, get_export_by_id, get_records_by_export_id
+)
 
 export_router = APIRouter(prefix="/api/export")
 
@@ -38,18 +38,7 @@ async def list_export(
     try:
         db = get_db()
 
-        offset = (page - 1) * limit
-
-        query = db.query(Export)
-
-        if file_name:
-            query = query.filter(Export.file_name.like(f"%{file_name}%"))
-
-        total = query.count()
-
-        query = query.offset(offset).limit(limit)
-
-        exports = query.all()
+        exports, total = list_exports(db, page, limit, file_name)
 
         has_prev = page > 1
         has_next = (page * limit) < total
@@ -79,41 +68,25 @@ async def list_export(
 )
 async def post_export(file: UploadFile = File(...)):
     try:
-
         db = get_db()
 
         if file.content_type != 'text/csv':
             raise HTTPException(status_code=400, detail='Invalid file type.')
 
-        contents = await file.read()
-        content_decoded = contents.decode()
-
-        csv_reader = csv.reader(io.StringIO(content_decoded))
-
-        rows = []
+        file_content = await file.read()
+        rows = read_csv(file_content)
 
         file_id = str(uuid.uuid4())
         logger.info(file_id)
 
-        export_new = Export(
-            file_name=file.filename,
-            file_id=file_id
-        )
-
-        logger.info(export_new)
-        db.add(export_new)
-        db.commit()
-
-        headers = next(csv_reader)
-        for row in csv_reader:
-            rows.append(dict(zip(headers, row)))
+        export_new = add_export(db, file.filename, file_id)
 
         rows = rows[:5]
 
         first, last = 0, len(rows) - 1
 
         for idx, row in enumerate(rows):
-            body = row['body'] if 'body' in row else ''
+            body = row.get('body', '')
 
             payload = {
                 "export_id": export_new.id,
@@ -157,31 +130,27 @@ async def export_csv(export_id: int):
     try:
         db = get_db()
 
-        export = db.query(Export).filter(Export.id == export_id).first()
+        export = get_export_by_id(db, export_id)
 
         if not export:
             raise HTTPException(status_code=404, detail="Export not found")
 
-        if export and export.status != "completed":
+        if export.status != "completed":
             return {"message": f"Export status: {export.status}"}
 
-        records = db.query(Record).filter(Record.export_id == export_id).all()
+        records = get_records_by_export_id(db, export_id)
 
         logger.info(records)
 
         if not records:
             raise HTTPException(status_code=404, detail='Records not found')
 
-        output = io.StringIO()
-        csv_writer = csv.writer(output)
-
-        # Create the header of the export.
-        csv_writer.writerow(['ID', 'Sentiment', 'Summary'])
-
-        for record in records:
-            csv_writer.writerow([record.id, record.sentiment, record.summary])
-
-        output.seek(0)
+        header = ['ID', 'Sentiment', 'Summary']
+        output = write_csv([{
+            'ID': record.id,
+            'Sentiment': record.sentiment,
+            'Summary': record.summary,
+        } for record in records], header)
 
         file_name = f"records_{export_id}.csv"
 
