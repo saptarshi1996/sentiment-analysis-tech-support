@@ -5,9 +5,7 @@ from shared.config.environment import (
     RABBITMQ_PORT,
 )
 
-from shared.config.constants import (
-    QUEUE
-)
+from shared.config.constants import QUEUE
 
 queue_name = QUEUE['GET_SENTIMENT']
 

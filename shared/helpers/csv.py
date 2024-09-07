@@ -1,9 +1,8 @@
 import csv
 import io
-from typing import List, Dict
 
 
-def read_csv(file_content: bytes) -> List[Dict[str, str]]:
+def read_csv(file_content):
     content_decoded = file_content.decode()
     csv_reader = csv.reader(io.StringIO(content_decoded))
 
@@ -13,7 +12,7 @@ def read_csv(file_content: bytes) -> List[Dict[str, str]]:
     return rows
 
 
-def write_csv(records: List[Dict[str, str]], header: List[str]) -> io.StringIO:
+def write_csv(records, header):
     output = io.StringIO()
     csv_writer = csv.writer(output)
 

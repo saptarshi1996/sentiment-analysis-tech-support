@@ -1,12 +1,9 @@
 import json
+import logging
 
 from groq import Groq
 
-import logging
-
-from shared.config.environment import (
-    GROQ_API_KEY
-)
+from shared.config.environment import GROQ_API_KEY
 
 client = Groq(api_key=GROQ_API_KEY)
 
