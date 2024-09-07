@@ -11,7 +11,7 @@ from shared.models.record import Record
 from shared.models.export import Export
 
 
-def read_export(ch, method, properties, body):
+def get_sentiment(ch, method, properties, body):
     try:
 
         db = get_db()

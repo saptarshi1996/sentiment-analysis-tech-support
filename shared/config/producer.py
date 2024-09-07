@@ -9,7 +9,7 @@ from shared.config.constants import (
     QUEUE
 )
 
-queue_name = QUEUE['PROCESS_RECORDS']
+queue_name = QUEUE['GET_SENTIMENT']
 
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(

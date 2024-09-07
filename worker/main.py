@@ -11,7 +11,7 @@ from shared.config.environment import (
 from shared.config.logger import logger
 from shared.config.constants import QUEUE
 
-from worker.workers.read_export import read_export
+from worker.workers.read_export import get_sentiment
 
 
 app = FastAPI()
@@ -20,7 +20,7 @@ router = APIRouter()
 
 
 # RabbitMQ connection URL
-queue_name = QUEUE["PROCESS_RECORDS"]
+queue_name = QUEUE["GET_SENTIMENT"]
 PREFETCH_COUNT = 1
 
 
@@ -39,7 +39,7 @@ def consume_messages():
     # Set up subscription
     channel.basic_consume(
         queue=queue_name,
-        on_message_callback=read_export,
+        on_message_callback=get_sentiment,
         auto_ack=True,
     )
     logger.info('Waiting for messages. To exit press CTRL+C')

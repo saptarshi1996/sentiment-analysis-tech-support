@@ -130,7 +130,7 @@ async def post_export(file: UploadFile = File(...)):
 
             # send message to consumer.
             send_message(
-                queue_name='PROCESS_RECORDS',
+                queue_name='GET_SENTIMENT',
                 payload=json_payload,
             )
 

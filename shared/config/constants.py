@@ -8,5 +8,5 @@ PROMPT = [
     "Only return the JSON object. Here is the message: "
 ]
 QUEUE = {
-    "PROCESS_RECORDS": "PROCESS_RECORDS"
+    "GET_SENTIMENT": "GET_SENTIMENT"
 }
