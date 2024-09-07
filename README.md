@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Sentiment Analysis Tech Support** project provides a solution for analyzing customer feedback through sentiment analysis. It consists of a backend API built with FastAPI and a frontend web application built with Next.js. This application allows users to upload feedback in CSV format, analyze its sentiment, and view results in a structured format.
+The **Sentiment Analysis Tech Support** project provides a solution for analyzing customer feedback through sentiment analysis. It consists of a backend API built with FastAPI and a frontend web application built with React.js with Vite. This application allows users to upload feedback in CSV format, analyze its sentiment, and view results in a structured format.
 
 ## Features
 
@@ -15,10 +15,10 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 ## Tech Stack
 
 - **Backend**: FastAPI
-- **Frontend**: Next.js
-- **Database**: PostgreSQL with SQLAlchemy
+- **Frontend**: ReactJS with Vite
+- **Database**: MySQL with SQLAlchemy
 - **Message Queue**: RabbitMQ
-- **Sentiment Analysis**: External sentiment analysis API
+- **Sentiment Analysis**: Groq API
 - **Visualization**: Chart.js
 
 ## Getting Started
@@ -27,7 +27,7 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 - Python 3.8 or higher
 - Node.js 14.x or higher
-- PostgreSQL
+- Mysql
 - RabbitMQ
 
 ### Backend Setup
@@ -40,22 +40,29 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 2. Set up a virtual environment and install dependencies:
     ```bash
-    python -m venv .venv
-    source .venv/bin/activate  # On Windows use .venv\Scripts\activate
-    pip install -r requirements.txt
+    make init
     ```
 
-3. Create a `.env` file in the root directory with the following content:
+3. Create a `.env` from `.env.example` file in the root directory with the following content:
     ```env
-    DATABASE_URL=postgresql://user:password@localhost/dbname
+    GROQ_API_KEY=
     RABBITMQ_HOST=localhost
     RABBITMQ_PORT=5672
-    SENTIMENT_API_KEY=your_sentiment_api_key
+    DB_USER=user
+    DB_PASSWORD=password
+    DB_NAME=sentiment
+    DB_PORT=3306
+    DB_HOST=localhost
     ```
 
-4. Run the FastAPI server:
+4. Run the FastAPI API server:
     ```bash
-    uvicorn app.main:app --reload
+    make rnapi
+    ```
+
+5. Run the FastAPI worker server:
+    ```bash
+    make rnwr
     ```
 
 ### Frontend Setup
@@ -72,60 +79,29 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 3. Create a `.env.local` file in the frontend directory with the following content:
     ```env
-    NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    VITE_BACKEND_URL=http://localhost:8081/api
     ```
 
-4. Run the Next.js development server:
+4. Run the ReactJS development server:
     ```bash
     npm run dev
     ```
 
-## API Endpoints
+## Swagger
 
-### Upload CSV
-
-- **Endpoint**: `POST /api/export`
-- **Description**: Upload a CSV file with feedback.
-- **Request**: `multipart/form-data`
-- **Response**: Confirmation message.
-
-### List Exports
-
-- **Endpoint**: `GET /api/export`
-- **Description**: List all exports with pagination and optional file name filtering.
-- **Query Parameters**:
-  - `page` (integer, default: 1)
-  - `limit` (integer, default: 20)
-  - `file_name` (string, optional)
-- **Response**: List of exports with pagination details.
-
-### Download CSV
-
-- **Endpoint**: `GET /api/export/{export_id}/csv`
-- **Description**: Download a CSV file of records for a specific export ID.
-- **Response**: CSV file download.
+Open http://localhost:8081/docs to open swagger docs
 
 ## Frontend
 
 - **Upload Page**: Allows users to upload a CSV file.
-- **Export List**: Displays a list of exports with pagination.
+- **Download Export**: Allows users to download the sentiment analysis of feedback.
 - **Visualization**: Provides charts and graphs of sentiment analysis results.
-
-## Contributing
-
-We welcome contributions to this project. Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature-branch`).
-3. Commit your changes (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Create a Pull Request.
 
 ## Acknowledgements
 
 - FastAPI
-- Next.js
+- React.js with Vite
 - Chart.js
 - RabbitMQ
-- PostgreSQL
-- External Sentiment Analysis API
+- MySQL
+- Groq API
