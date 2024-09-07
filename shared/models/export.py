@@ -4,7 +4,6 @@ from sqlalchemy import (
     String,
     TIMESTAMP,
     func,
-    Enum,
 )
 from sqlalchemy.orm import relationship
 
@@ -18,9 +17,14 @@ class Export(Base):
     id = Column(Integer, primary_key=True, index=True)
     file_name = Column(String(255), nullable=False)
     file_id = Column(String(255), nullable=False)
-    status = Column(Enum(
-        'pending', 'processing', 'completed', 'failed', name='export_status'
-    ), default='pending')
+    record_count = Column(
+        Integer,
+        default=None
+    )
+    processed_count = Column(
+        Integer,
+        default=None
+    )
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
     updated_at = Column(
         TIMESTAMP, server_default=func.now(), onupdate=func.now(),

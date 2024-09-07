@@ -13,7 +13,6 @@ from fastapi import (
 from fastapi.responses import StreamingResponse
 
 from shared.config.logger import logger
-from shared.config.db import get_db
 from shared.helpers.queue import send_message
 from shared.helpers.csv import read_csv, write_csv
 from shared.repository.export import (
@@ -37,9 +36,8 @@ async def list_export(
     file_name: str = Query(None, description="Search by file name")
 ):
     try:
-        db = get_db()
 
-        exports, total = list_exports(db, page, limit, file_name)
+        exports, total = list_exports(page, limit, file_name)
 
         has_prev = page > 1
         has_next = (page * limit) < total
@@ -69,7 +67,6 @@ async def list_export(
 )
 async def post_export(file: UploadFile = File(...)):
     try:
-        db = get_db()
 
         if file.content_type != 'text/csv':
             raise HTTPException(status_code=400, detail='Invalid file type.')
@@ -80,24 +77,26 @@ async def post_export(file: UploadFile = File(...)):
         file_id = str(uuid.uuid4())
         logger.info(file_id)
 
-        export_new = add_export(db, file.filename, file_id)
+        rows = rows[:5]  # disable this
 
-        rows = rows[:5]
+        record_count = len(rows)
+        logger.info(record_count)
 
-        first, last = 0, len(rows) - 1
+        export_new = add_export(
+            file.filename,
+            file_id,
+            record_count=record_count,
+            processed_count=0
+        )
 
         for idx, row in enumerate(rows):
+            logger.info(idx)
             body = row.get('body', '')
 
             payload = {
                 "export_id": export_new.id,
                 "text_body": body,
             }
-
-            if idx == first:
-                payload['is_first'] = 1
-            if idx == last:
-                payload['is_last'] = 1
 
             json_payload = json.dumps(payload)
             logger.info(json_payload)
@@ -110,12 +109,44 @@ async def post_export(file: UploadFile = File(...)):
 
         response_message = [
             "Analysing sentiments. ",
-            "Keep checking the status of the records and exports."
+            "Download export from the table."
         ]
 
         return {
             "message": "".join(response_message)
         }
+    except Exception as e:
+        logger.error("An error occurred:", str(e))
+        logger.error("Stack trace:", traceback.format_exc())
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@export_router.get(
+    '/{export_id}/count',
+    tags=['Export'],
+    description='Check count of processed files.'
+)
+async def check_count(export_id: int):
+    try:
+
+        export = get_export_by_id(export_id)
+
+        record_count = export.record_count
+        processed_count = export.processed_count
+
+        if record_count == processed_count:
+            message = "All records have been proceessed. Downloading export."
+            return {
+                "message": message
+            }
+        else:
+            count = "All records have not been processed."
+            message = "Downloading partial export."
+
+            return {
+                "message": count + message,
+            }
+
     except Exception as e:
         logger.error("An error occurred:", str(e))
         logger.error("Stack trace:", traceback.format_exc())
@@ -129,17 +160,13 @@ async def post_export(file: UploadFile = File(...)):
 )
 async def export_csv(export_id: int):
     try:
-        db = get_db()
 
-        export = get_export_by_id(db, export_id)
+        export = get_export_by_id(export_id)
 
         if not export:
             raise HTTPException(status_code=404, detail="Export not found")
 
-        if export.status != "completed":
-            return {"message": f"Export status: {export.status}"}
-
-        records = get_records_by_export_id(db, export_id)
+        records = get_records_by_export_id(export_id)
 
         logger.info(records)
 

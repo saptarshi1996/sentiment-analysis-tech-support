@@ -11,7 +11,7 @@ from shared.config.environment import (
 from shared.config.logger import logger
 from shared.config.constants import QUEUE
 
-from worker.workers.read_export import get_sentiment
+from worker.workers.get_sentiment import get_sentiment
 
 
 app = FastAPI()

@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS exports (
     id INT AUTO_INCREMENT NOT NULL,
     file_name VARCHAR(255) NOT NULL,
     file_id VARCHAR(255) NOT NULL,
+    record_count INT DEFAULT NULL,
+    processed_count INT DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL DEFAULT NULL,
@@ -24,5 +26,3 @@ CREATE TABLE IF NOT EXISTS records (
     PRIMARY KEY (id),
     FOREIGN KEY (export_id) REFERENCES exports(id) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB;
-
-ALTER TABLE exports ADD COLUMN status ENUM('pending', 'processing', 'completed') DEFAULT 'pending';

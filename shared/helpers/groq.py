@@ -1,8 +1,8 @@
-import json
-import logging
+import traceback
 
 from groq import Groq
 
+from shared.config.logger import logger
 from shared.config.environment import GROQ_API_KEY
 
 client = Groq(api_key=GROQ_API_KEY)
@@ -24,15 +24,8 @@ def get_completion(content: str):
 
         message = chat_completion.choices[0].message
         content = message.content
-        json_content = json.loads(content)
-
-        sentiment: str = json_content['sentiment']
-        summary: str = json_content['summary']
-
-        logging.info(sentiment)
-        logging.info(summary)
-
-        return sentiment, summary
+        return content
     except Exception as e:
-        logging.error(e)
-        return None, None
+        logger.error("An error occurred:", str(e))
+        logger.error("Stack trace:", traceback.format_exc())
+        return None

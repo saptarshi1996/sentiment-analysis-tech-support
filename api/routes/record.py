@@ -2,7 +2,7 @@ import traceback
 
 from fastapi import APIRouter, Query, HTTPException
 
-from shared.config.db import get_db
+from shared.helpers.groq import get_completion
 from shared.config.logger import logger
 from shared.repository.record import list_records, get_sentiments
 
@@ -17,12 +17,12 @@ record_router = APIRouter(prefix="/api/record")
 async def list_record(
     page: int = Query(1, get=1),
     limit: int = Query(20, get=20),
-    export_id: int = Query(None, description="Optional to filter record")
+    export_id: int = Query(None, description="Optional to filter record"),
+    sentiment: str = Query(None)
 ):
     try:
-        db = get_db()
 
-        records, total = list_records(db, page, limit, export_id)
+        records, total = list_records(page, limit, export_id, sentiment)
 
         has_prev = page > 1
         has_next = (page * limit) < total
@@ -51,18 +51,38 @@ async def list_record(
     tags=['Record'],
     description='Get sentiments',
 )
-async def sentiment():
+async def sentiment(
+    export_id: int = Query(None, description="Optional to filter record"),
+):
     try:
-        db = get_db()
 
-        sentiments = get_sentiments(db)
+        sentiments = get_sentiments(export_id)
 
         logger.info(f"Positive: {sentiments['positive']}")
         logger.info(f"Negative: {sentiments['negative']}")
         logger.info(f"Neutral: {sentiments['neutral']}")
         logger.info(f"Mixed: {sentiments['mixed']}")
 
-        return sentiments
+        content_prompt = [
+            "Give a summary from the count of user sentiments.",
+            "This will help business by using the data.",
+            f"There {sentiments['positive']} positive feedback.",
+            f"There {sentiments['negative']} negative feedback.",
+            f"There {sentiments['neutral']} neutral feedback.",
+            f"There {sentiments['mixed']} mixed feedback.",
+            "A single line without here you are looking or other."
+        ]
+
+        prompt = "".join(content_prompt)
+
+        logger.info(prompt)
+
+        content = get_completion(content=prompt)
+
+        return {
+            "sentiments": sentiments,
+            "summary": content
+        }
 
     except Exception as e:
         logger.error("An error occurred:", str(e))
