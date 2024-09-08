@@ -1,0 +1,49 @@
+# Global ignores for both client and api
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Ignore node modules and build files
+**/node_modules/
+**/build/
+
+# Ignore virtual environments
+**/env/
+**/venv/
+
+# Ignore environment and configuration files
+# *.env
+# .env.*
+.idea/
+.vscode/
+*.log
+*.tmp
+*.bak
+
+# Ignore Git files and directories
+.git/
+.gitignore
+
+# Ignore Docker files
+Dockerfile
+.dockerignore
+
+# Ignore test, coverage, and compiled files
+**/tests/
+.coverage
+*.egg-info
+dist/
+build/
+
+# Ignore package management lock files
+package-lock.json
+yarn.lock
+
+# Ignore Mac and OS-specific files
+*.DS_Store
+
+# Ignore temporary and editor swap files
+*.swp
+*.swo

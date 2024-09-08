@@ -2,6 +2,12 @@ init:
 	pip3 install -r requirements.txt
 	docker compose up --force-recreate --build -d
 
+rabbitsql:
+	docker compose up rabbitmq mysql
+
+dev:
+	docker compose up --force-recreate --build -d
+
 down:
 	docker compose down
 

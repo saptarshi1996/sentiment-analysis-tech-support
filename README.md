@@ -30,20 +30,28 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 - Mysql
 - RabbitMQ
 
-### Backend Setup
+## Database and RabbitMQ
 
-1. Clone the repository:
+1. To start using rabbitmq and mysql in docker compose:
     ```bash
-    git clone https://github.com/saptarshi1996/sentiment-analysis-tech-support.git
-    cd sentiment-analysis-tech-support
+    make rabbitsql
     ```
 
-2. Set up a virtual environment and install dependencies:
+2. Create a database named sentiment and generate tables using schema.sql file.
+
+### Schema
+
+![Alt text](schema.png "schema")
+
+### Backend Setup
+
+
+1. Set up a virtual environment and install dependencies:
     ```bash
     make init
     ```
 
-3. Create a `.env` from `.env.example` file in the root directory with the following content:
+2. Create a `.env` from `.env.example` file in the root directory with the following content:
     ```env
     GROQ_API_KEY=
     RABBITMQ_HOST=localhost
@@ -55,12 +63,12 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
     DB_HOST=localhost
     ```
 
-4. Run the FastAPI API server:
+3. Run the FastAPI API server:
     ```bash
     make rnapi
     ```
 
-5. Run the FastAPI worker server:
+4. Run the FastAPI worker server:
     ```bash
     make rnwr
     ```
