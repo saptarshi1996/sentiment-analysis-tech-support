@@ -149,7 +149,9 @@ The **Sentiment Analysis Tech Support** project provides a comprehensive solutio
    npm run dev
    ```
 
-2. **Generate Production Build**
+2. **Go to** `http://localhost:5173/`
+
+3. **Generate Production Build**
 
    Create a production build for the client:
 

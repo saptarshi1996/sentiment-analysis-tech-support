@@ -27,12 +27,13 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+
 import {
   useExportDataQuery,
   useExportCSVMutation,
   useUploadCSVMutation,
 } from '../hooks/export';
-import Footer from '../components/Footer';
 
 const ITEMS_PER_PAGE = 5;
 

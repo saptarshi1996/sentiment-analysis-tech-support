@@ -18,10 +18,12 @@ import {
   Paper,
   CircularProgress,
   ButtonGroup,
-  Button
+  IconButton
 } from '@mui/material';
+import { BarChart, PieChart } from '@mui/icons-material';
 
 import { useSentimentCountQuery } from '../hooks/record';
+
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -50,7 +52,7 @@ const Visualize = () => {
 
   useEffect(() => {
     refetch();
-  }, [exportID, refetch])
+  }, [exportID, refetch]);
 
   const chartData = {
     labels: ['Positive', 'Negative', 'Neutral', 'Mixed'],
@@ -92,12 +94,18 @@ const Visualize = () => {
         <Paper elevation={3} sx={{ p: 3 }}>
           <Box mb={2} textAlign="center">
             <ButtonGroup variant="contained" aria-label="chart type selector">
-              <Button onClick={() => setChartType('bar')} color={chartType === 'bar' ? 'primary' : 'default'}>
-                Bar Chart
-              </Button>
-              <Button onClick={() => setChartType('pie')} color={chartType === 'pie' ? 'primary' : 'default'}>
-                Pie Chart
-              </Button>
+              <IconButton
+                onClick={() => setChartType('bar')}
+                color={chartType === 'bar' ? 'primary' : 'default'}
+              >
+                <BarChart />
+              </IconButton>
+              <IconButton
+                onClick={() => setChartType('pie')}
+                color={chartType === 'pie' ? 'primary' : 'default'}
+              >
+                <PieChart />
+              </IconButton>
             </ButtonGroup>
           </Box>
           {isLoading ? (

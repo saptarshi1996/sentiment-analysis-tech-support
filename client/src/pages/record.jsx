@@ -18,9 +18,9 @@ import {
 import { useLocation } from 'react-router-dom';
 
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 import { useSearchRecordQuery } from '../hooks/record';
-import Footer from '../components/Footer';
 
 const ITEMS_PER_PAGE = 5;
 
