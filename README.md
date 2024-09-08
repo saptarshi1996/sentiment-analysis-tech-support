@@ -45,7 +45,7 @@ The **Sentiment Analysis Tech Support** project provides a comprehensive solutio
 - NVM (Node Version Manager)
 - Docker
 - Docker Compose
-- `make` - GNU make utility to maintain groups of programs
+- GNU make
 
 ### Setup
 
@@ -80,7 +80,9 @@ The **Sentiment Analysis Tech Support** project provides a comprehensive solutio
 
    ```bash
    python3 -m venv venv
+   source venv/bin/activate
    make inpip
+   nvm install 20.11.1
    nvm use 20.11.1
    cd client && npm install
    make rabbitsql
@@ -88,7 +90,7 @@ The **Sentiment Analysis Tech Support** project provides a comprehensive solutio
 
 4. **Database Setup**
 
-   Create a database named `sentiment` and initialize the tables using the `init.sql` file or set them up manually.
+   Initialize the tables from the `init.sql` file or set them up manually. In case of public key retrieval error, add this to the URL `?allowPublicKeyRetrieval=true&useSSL=false`.
 
 5. **Queue Initialization**
 
@@ -125,6 +127,14 @@ The **Sentiment Analysis Tech Support** project provides a comprehensive solutio
    make lgapi
    make lgwrk
    make lgsk
+   ```
+
+3. **Close services**
+
+   To close the services:
+   
+   ```bash
+   make down
    ```
 
 ## Frontend Setup

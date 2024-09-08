@@ -1,5 +1,5 @@
 rabbitsql:
-	docker compose up rabbitmq mysql
+	docker compose up rabbitmq mysql --force-recreate --build -d
 
 dev:
 	docker compose up --force-recreate --build -d
