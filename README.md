@@ -35,13 +35,13 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 1. Create a `.env` from `.env.example` file in the root directory with the following content:
 ```env
     GROQ_API_KEY=
-    RABBITMQ_HOST=localhost
+    RABBITMQ_HOST=rabbitmq
     RABBITMQ_PORT=5672
     DB_USER=user
     DB_PASSWORD=password
     DB_NAME=sentiment
     DB_PORT=3306
-    DB_HOST=localhost
+    DB_HOST=mysql
 ```
 
 2. For running setup with docker compose
@@ -78,13 +78,13 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 2. Create a `.env` from `.env.example` file in the root directory with the following content:
     ```env
     GROQ_API_KEY=
-    RABBITMQ_HOST=localhost
+    RABBITMQ_HOST=rabbitmq
     RABBITMQ_PORT=5672
     DB_USER=user
     DB_PASSWORD=password
     DB_NAME=sentiment
     DB_PORT=3306
-    DB_HOST=localhost
+    DB_HOST=mysql
     ```
 
 3. Run the FastAPI API server:
