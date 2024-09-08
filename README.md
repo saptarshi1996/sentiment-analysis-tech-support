@@ -151,7 +151,7 @@ The **Sentiment Analysis Tech Support** project provides a comprehensive solutio
 
 2. **Access Frontend**
 
-   Access the Frontend UI at [http://localhost:5173](http://localhost:5173)
+   Access the Frontend UI at [http://localhost:5173](http://localhost:5173).
 
 3. **Generate Production Build**
 
