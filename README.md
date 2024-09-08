@@ -12,6 +12,14 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 - **Pagination**: Navigate through lists of exports and records.
 - **Visualization**: View sentiment distribution and key themes through charts.
 
+## Screenshots
+
+### Export page
+
+### Record page
+
+### Visualization page
+
 ## Tech Stack
 
 - **Backend**: FastAPI
@@ -64,7 +72,7 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 ### Schema
 
-![Alt text](schema.png "schema")
+![Alt text](screenshots/schema.png "schema")
 
 ### Backend Setup
 
