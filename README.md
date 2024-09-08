@@ -81,9 +81,9 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
     make rabbitsql
 ```
 
-2. Create a database named sentiment and generate tables using schema.sql file.
+2. Create a database named sentiment and generate tables using init.sql file.
 
-3. Queue will generated automatically on running the worker server.
+3. Queue will generated automatically on running the worker service.
 
 4. To open rabbitmq UI. Go to: http://localhost:15672. Username and Password is guest.
 
@@ -113,22 +113,7 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 ### Frontend Setup
 
-1. Navigate to the frontend directory:
-    ```bash
-    cd client
-    ```
-
-2. Install dependencies:
-    ```bash
-    npm install
-    ```
-
-3. Create a `.env.example` file in the frontend directory with the following content:
-    ```env
-    VITE_BACKEND_URL=http://localhost:8081/api
-    ```
-
-4. Run the ReactJS development server:
+1. Run the ReactJS development server:
     ```bash
     npm run dev
     ```
