@@ -101,7 +101,7 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 1. Navigate to the frontend directory:
     ```bash
-    cd frontend
+    cd client
     ```
 
 2. Install dependencies:
