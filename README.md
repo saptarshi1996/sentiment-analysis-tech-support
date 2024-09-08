@@ -71,6 +71,7 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 1. Set up a virtual environment and install dependencies:
     ```bash
+    python3 -m venv venv
     make init
     ```
 

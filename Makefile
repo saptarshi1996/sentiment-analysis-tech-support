@@ -3,6 +3,10 @@ init:
 	cd client && npm install
 	docker compose up rabbitmq mysql -d
 
+fe:
+	cd client && docker build . -t client
+	docker run -p 3000:80 client
+
 rabbitsql:
 	docker compose up rabbitmq mysql
 

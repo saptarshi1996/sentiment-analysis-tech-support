@@ -8,6 +8,7 @@ __pycache__/
 # Ignore node modules and build files
 **/node_modules/
 **/build/
+**/dist/
 
 # Ignore virtual environments
 **/env/
