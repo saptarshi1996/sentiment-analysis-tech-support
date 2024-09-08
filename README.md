@@ -21,7 +21,10 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 ![Alt text](screenshots/record.png "record")
 
 ### Visualization page
-![Alt text](screenshots/visualize.png "visualize")
+![Alt text](screenshots/barchart.png "visualize")
+
+### Visualization page
+![Alt text](screenshots/piechart.png "visualize")
 
 ## Tech Stack
 
