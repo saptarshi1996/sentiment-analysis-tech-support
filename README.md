@@ -45,7 +45,8 @@ The **Sentiment Analysis Tech Support** project provides a comprehensive solutio
 - NVM (Node Version Manager)
 - Docker
 - Docker Compose
-- GNU make
+- GNU Make
+- GROQ API Key ([Download here](https://console.groq.com/login))
 
 ### Setup
 
