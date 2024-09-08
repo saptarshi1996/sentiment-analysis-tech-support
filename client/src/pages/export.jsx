@@ -16,7 +16,13 @@ import {
   Input,
   InputAdornment,
 } from '@mui/material';
-import { GetApp, Upload, BarChart, Search, Clear } from '@mui/icons-material';
+import {
+  GetApp,
+  Upload,
+  BarChart,
+  Search,
+  Clear,
+ } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -31,14 +37,12 @@ import Footer from '../components/Footer';
 const ITEMS_PER_PAGE = 5;
 
 const Export = () => {
-  // const [exports, setExports] = useState([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [file, setFile] = useState(null);
   
   const navigate = useNavigate();
 
-  // const exportDataQuery = useExportDataQuery();
   const exportCSVMutation = useExportCSVMutation();
   const uploadCSVMutation = useUploadCSVMutation();
 
@@ -61,7 +65,7 @@ const Export = () => {
     let socket;
 
     const connectWebSocket = () => {
-      const socket = new WebSocket(`${import.meta.env.VITE_SOCKET_URL}ws`);
+      const socket = new WebSocket(`${import.meta.env.VITE_SOCKET_URL}/ws`);
       socket.onopen = () => console.log('WebSocket connected');
       socket.onmessage = (event) => {
         const message = JSON.parse(event.data);

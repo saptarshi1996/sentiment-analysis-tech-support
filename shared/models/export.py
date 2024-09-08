@@ -10,7 +10,6 @@ from sqlalchemy.orm import relationship
 from shared.config.db import Base
 
 
-# Export model representing the 'exports' table
 class Export(Base):
     __tablename__ = 'exports'
 

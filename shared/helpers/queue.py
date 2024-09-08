@@ -66,5 +66,5 @@ def check_rabbitmq_health():
         connection.close()
         return True
     except Exception as e:
-        print(f"RabbitMQ health check failed: {e}")
+        logger.error(f"RabbitMQ health check failed: {e}")
         return False

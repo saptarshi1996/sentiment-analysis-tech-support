@@ -28,20 +28,20 @@ class Notification(BaseModel):
     message: str
 
 
-clients = []  # to store client id.
+clients = []  # to store clients.
 
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     clients.append(websocket)
-    print(clients)
+    logger.info(clients)
     try:
         while True:
             data = await websocket.receive_text()
-            print(f"Received message: {data}")
+            logger.info(f"Received message: {data}")
     except WebSocketDisconnect:
-        print("Client disconnected")
+        logger.error("Client disconnected")
 
 
 @app.get("/")
@@ -64,7 +64,7 @@ async def notify_handler(
             'message': message
         })
 
-        # Send the message to the specific client
+        # Send the message to clients
         for client in clients:
             try:
                 await client.send_text(full_message)

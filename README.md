@@ -7,9 +7,8 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 ## Features
 
 - **CSV Upload**: Upload customer feedback in CSV format.
-- **Sentiment Analysis**: Analyze sentiment using an external sentiment analysis API.
+- **Sentiment Analysis**: Realtime Analyze sentiment using an external sentiment analysis API.
 - **Results Export**: Download results in CSV format.
-- **Pagination**: Navigate through lists of exports and records.
 - **Visualization**: View sentiment distribution and key themes through charts.
 
 ## Screenshots
@@ -34,23 +33,24 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 - **Message Queue**: RabbitMQ
 - **Sentiment Analysis**: Groq API
 - **Visualization**: Chart.js
+- **Realtime**: Websockets
 
 ## Getting Started
 
 ### Prerequisites
 
 - Python 3.8 or higher
-- Node.js 14.x or higher
-- Mysql
-- RabbitMQ
+- Node.js 20.0x or higher
 - Docker
 - Docker Compose
+- make - GNU make utility to maintain groups of programs
 
 ## Initial
 
 1. Create a `.env` from `.env.example` file in the root directory with the following content:
 ```env
     GROQ_API_KEY=
+    SOCKET_URL=http://websocket:8083
     RABBITMQ_HOST=rabbitmq
     RABBITMQ_PORT=5672
     DB_USER=user
@@ -60,23 +60,32 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
     DB_HOST=mysql
 ```
 
-2. For running setup with docker compose
+2. Create a `.env` from `.env.example` file in the client/ directory with the following content:
+```env
+    VITE_BACKEND_URL=http://localhost:8081/api
+    VITE_SOCKET_URL=ws://localhost:8083
+```
+
+3. For running setup with docker compose
 ```bash
     make init
-    cd client 
-    npm run dev
+    nvm use 20.11.1
+    cd client
+    npm install
 ```
 
 ## Database and RabbitMQ
 
-1. To start using rabbitmq and mysql in docker compose:
-    ```bash
+1. To launch DB and RabbitMQ, optional as it will always launch with other services:
+```bash
     make rabbitsql
-    ```
+```
 
 2. Create a database named sentiment and generate tables using schema.sql file.
 
 3. Queue will generated automatically on running the worker server.
+
+4. To open rabbitmq UI. Go to: http://localhost:15672. Username and Password is guest.
 
 ### Schema
 
@@ -85,10 +94,9 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 ### Backend Setup
 
 
-1. Set up a virtual environment and install dependencies:
+1. To run backend microservices after setting up .env in root folder:
     ```bash
-    python3 -m venv venv
-    make init
+    make dev
     ```
 
 2. Create a `.env` from `.env.example` file in the root directory with the following content:
@@ -101,16 +109,6 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
     DB_NAME=sentiment
     DB_PORT=3306
     DB_HOST=mysql
-    ```
-
-3. Run the FastAPI API server:
-    ```bash
-    make rnapi
-    ```
-
-4. Run the FastAPI worker server:
-    ```bash
-    make rnwr
     ```
 
 ### Frontend Setup
@@ -142,12 +140,6 @@ Open http://localhost:8081/docs to open swagger docs.
 ![Alt text](screenshots/swagger.png "visualize")
 
 
-## Frontend
-
-- **Upload Page**: Allows users to upload a CSV file.
-- **Download Export**: Allows users to download the sentiment analysis of feedback.
-- **Visualization**: Provides charts and graphs of sentiment analysis results.
-
 ## Acknowledgements
 
 - FastAPI
@@ -157,3 +149,4 @@ Open http://localhost:8081/docs to open swagger docs.
 - RabbitMQ
 - MySQL
 - Groq API
+- Websockets
