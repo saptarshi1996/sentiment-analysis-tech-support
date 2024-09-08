@@ -109,7 +109,7 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
     npm install
     ```
 
-3. Create a `.env.local` file in the frontend directory with the following content:
+3. Create a `.env.example` file in the frontend directory with the following content:
     ```env
     VITE_BACKEND_URL=http://localhost:8081/api
     ```
