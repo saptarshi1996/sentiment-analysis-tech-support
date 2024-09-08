@@ -1,7 +1,3 @@
-Here's an improved and properly formatted markdown version of your project documentation for **Sentiment Analysis Tech Support**:
-
----
-
 # Sentiment Analysis Tech Support
 
 ## Overview
