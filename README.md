@@ -30,6 +30,27 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 - Mysql
 - RabbitMQ
 
+## Initial
+
+1. Create a `.env` from `.env.example` file in the root directory with the following content:
+```env
+    GROQ_API_KEY=
+    RABBITMQ_HOST=localhost
+    RABBITMQ_PORT=5672
+    DB_USER=user
+    DB_PASSWORD=password
+    DB_NAME=sentiment
+    DB_PORT=3306
+    DB_HOST=localhost
+```
+
+2. For running setup with docker compose
+```bash
+    make init
+    cd client 
+    npm run dev
+```
+
 ## Database and RabbitMQ
 
 1. To start using rabbitmq and mysql in docker compose:

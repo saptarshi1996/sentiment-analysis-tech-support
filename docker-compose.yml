@@ -10,9 +10,13 @@ services:
       - "8081:8081"
     expose:
       - 8081
+    restart: always
     depends_on:
       - mysql
       - rabbitmq
+    volumes:
+      - ./api:/app/api
+      - ./shared:/app/shared
     networks:
       - sats
     command: ["./wait-for-it.sh", "rabbitmq:5672", "--", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8081", "--reload"]
@@ -28,10 +32,14 @@ services:
       - "8082:8082"
     expose:
       - 8082
+    restart: always
     depends_on:
       - mysql
       - rabbitmq
       - api
+    volumes:
+      - ./worker:/app/worker
+      - ./shared:/app/shared
     networks:
       - sats
     command: ["./wait-for-it.sh", "rabbitmq:5672", "--", "uvicorn", "worker.main:app", "--host", "0.0.0.0", "--port", "8082", "--reload"]

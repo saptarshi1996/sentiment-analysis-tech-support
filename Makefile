@@ -1,6 +1,7 @@
 init:
 	pip3 install -r requirements.txt
-	docker compose up --force-recreate --build -d
+	cd client && npm install
+	docker compose up rabbitmq mysql -d
 
 rabbitsql:
 	docker compose up rabbitmq mysql
@@ -10,12 +11,6 @@ dev:
 
 down:
 	docker compose down
-
-rnwr:
-	uvicorn worker.main:app --reload --port 8080 --log-level debug
-
-rnapi:
-	uvicorn api.main:app --reload --port 8081 --log-level debug
 
 inpip:
 	pip3 install -r requirements.txt
