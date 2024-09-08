@@ -40,12 +40,14 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 ### Prerequisites
 
 - Python 3.8 or higher
+- PIP
 - Node.js 20.0x or higher
+- NVM (Node Version Manager)
 - Docker
 - Docker Compose
 - make - GNU make utility to maintain groups of programs
 
-## Initial
+## Setup
 
 1. Create a `.env` from `.env.example` file in the root directory with the following content:
 ```env
@@ -66,56 +68,53 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
     VITE_SOCKET_URL=ws://localhost:8083
 ```
 
-3. For running setup with docker compose
+3. Run the following commands:
 ```bash
-    make init
+    python3 -m venv venv
+    make inpip
     nvm use 20.11.1
-    cd client
-    npm install
-```
-
-## Database and RabbitMQ
-
-1. To launch DB and RabbitMQ, optional as it will always launch with other services:
-```bash
+    cd client && npm install
     make rabbitsql
 ```
 
-2. Create a database named sentiment and generate tables using init.sql file.
+4. Create a database named sentiment and the tables using init.sql file or manually.
 
-3. Queue will generated automatically on running the worker service.
+5. Queue will generated automatically on running the worker service.
 
-4. To open rabbitmq UI. Go to: http://localhost:15672. Username and Password is guest.
+6. To open rabbitmq UI. Go to: http://localhost:15672. 
+    ```bash
+    Username: guest
+    Password: guest.
+    ```
 
 ### Schema
 
 ![Alt text](screenshots/schema.png "schema")
 
-### Backend Setup
+### Backend
 
-
-1. To run backend microservices after setting up .env in root folder:
+1. To run backend microservices after initial setup:
     ```bash
     make dev
     ```
 
-2. Create a `.env` from `.env.example` file in the root directory with the following content:
-    ```env
-    GROQ_API_KEY=
-    RABBITMQ_HOST=rabbitmq
-    RABBITMQ_PORT=5672
-    DB_USER=user
-    DB_PASSWORD=password
-    DB_NAME=sentiment
-    DB_PORT=3306
-    DB_HOST=mysql
+2. To view logs of the api, worker and socket services respectively:
+    ```bash
+    make lgapi
+    make lgwrk
+    make lgsk
     ```
 
-### Frontend Setup
+### Frontend
 
 1. Run the ReactJS development server:
     ```bash
+    cd client
     npm run dev
+    ```
+2. Generate production build client:
+    ```bash
+    npm run build
     ```
 
 ## Swagger
@@ -123,15 +122,3 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 Open http://localhost:8081/docs to open swagger docs.
 
 ![Alt text](screenshots/swagger.png "visualize")
-
-
-## Acknowledgements
-
-- FastAPI
-- React.js with Vite
-- Docker Compose
-- Chart.js
-- RabbitMQ
-- MySQL
-- Groq API
-- Websockets

@@ -1,11 +1,3 @@
-init:
-	pip3 install -r requirements.txt
-	cd client && npm install
-
-fe:
-	cd client && docker build . -t client
-	docker run -p 3000:80 client
-
 rabbitsql:
 	docker compose up rabbitmq mysql
 
