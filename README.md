@@ -132,6 +132,7 @@ Open http://localhost:8081/docs to open swagger docs
 
 - FastAPI
 - React.js with Vite
+- Docker Compose
 - Chart.js
 - RabbitMQ
 - MySQL
