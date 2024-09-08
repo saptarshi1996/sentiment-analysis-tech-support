@@ -1,10 +1,7 @@
--- Create the database if it does not exist, with UTF-8 encoding
-CREATE DATABASE IF NOT EXISTS sentiment CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS sentiment;
 
--- Use the target database
 USE sentiment;
 
--- Create the exports table
 CREATE TABLE IF NOT EXISTS exports (
     id INT AUTO_INCREMENT NOT NULL,
     file_name VARCHAR(255) NOT NULL,
@@ -17,7 +14,6 @@ CREATE TABLE IF NOT EXISTS exports (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
--- Create the records table
 CREATE TABLE IF NOT EXISTS records (
     id INT AUTO_INCREMENT NOT NULL,
     sentiment VARCHAR(50) NOT NULL,
