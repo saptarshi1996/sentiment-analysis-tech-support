@@ -238,7 +238,7 @@ const Export = () => {
                     <TableCell align="center">{exportItem?.id}</TableCell>
                     <TableCell
                       align="center"
-                      sx={{ cursor: 'pointer', color: 'primary.main' }}
+                      sx={{ cursor: 'pointer', color: 'primary.main', fontWeight: 'bold' }}
                       onClick={() => handleRowClick(exportItem.id)}
                     >
                       {exportItem.file_name}
