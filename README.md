@@ -149,7 +149,9 @@ The **Sentiment Analysis Tech Support** project provides a comprehensive solutio
    npm run dev
    ```
 
-2. **Open** [http://localhost:5173](http://localhost:5173)
+2. **Access Frontend**
+
+   Access the frontend using [http://localhost:5173](http://localhost:5173)
 
 3. **Generate Production Build**
 
