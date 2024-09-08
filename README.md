@@ -39,6 +39,8 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 2. Create a database named sentiment and generate tables using schema.sql file.
 
+3. Queue will generated automatically on running the worker server.
+
 ### Schema
 
 ![Alt text](schema.png "schema")
