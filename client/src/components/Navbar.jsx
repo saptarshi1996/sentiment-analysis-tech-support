@@ -1,4 +1,11 @@
-import { AppBar, Toolbar, Typography, Container, Button, Box } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Button,
+  Box
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {

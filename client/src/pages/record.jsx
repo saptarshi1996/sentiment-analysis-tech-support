@@ -19,11 +19,10 @@ import { useLocation } from 'react-router-dom';
 
 import Navbar from '../components/Navbar';
 
-import {
-  useSearchRecordMutation,
-} from '../hooks/record';
+import { useSearchRecordQuery } from '../hooks/record';
+import Footer from '../components/Footer';
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 5;
 
 const sentiments = [
   'Positive',
@@ -37,62 +36,37 @@ const Record = () => {
   const queryParams = new URLSearchParams(location.search);
   const exportID = queryParams.get('export_id');
 
-  const [records, setRecords] = useState([]);
+  const [page, setPage] = useState(1);
   const [selectedSentiment, setSelectedSentiment] = useState('');
-  const [paginationLoading, setPaginationLoading] = useState(false);
 
-  const [pagination, setPagination] = useState({
-    has_next: false,
-    has_prev: false,
-    prev_page: 0,
-    next_page: 0,
-    page: 0,
-    total: 0,
+  const {
+    data,
+    isLoading,
+    refetch,
+  } = useSearchRecordQuery({
+    limit: ITEMS_PER_PAGE,
+    page: page,
+    export_id: exportID,
+    sentiment: selectedSentiment,
+    }, {
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 
-  const searchRecordMutation = useSearchRecordMutation();
-
   useEffect(() => {
-    fetchData({
-      page_number: 1,
-      sentiment: selectedSentiment,
-    });
-  }, [selectedSentiment]);
-
-  const fetchData = async ({
-    sentiment,
-    page_number
-  }) => {
-    setPaginationLoading(true);
-    const response = await searchRecordMutation.mutateAsync({
-      limit: ITEMS_PER_PAGE,
-      page: page_number,
-      sentiment,
-      export_id: exportID,
-    });
-    const { records, page } = response;
-
-    setPagination({ ...page });
-    setRecords(records);
-    setPaginationLoading(false);
-  };
+    refetch();
+  }, [page, selectedSentiment, refetch]);
 
   const handleSentimentChange = (event) => {
     setSelectedSentiment(event.target.value);
   };
 
   const handleNext = async () => {
-    if (pagination.next_page)
-      await fetchData({
-        page_number: pagination.next_page,
-      });
+    setPage(data?.page?.next_page);
   };
 
   const handlePrev = async () => {
-    if (pagination.prev_page)
-      await fetchData({
-        page_number: pagination.prev_page,
-      });
+    setPage(data?.page?.prev_page);
   };
 
   return (
@@ -121,7 +95,7 @@ const Record = () => {
               variant="contained"
               color="primary"
               onClick={handlePrev}
-              disabled={!pagination.has_prev || paginationLoading}
+              disabled={!data?.page?.has_prev || isLoading}
               sx={{ ml: 2 }}
             >
               Previous
@@ -130,7 +104,7 @@ const Record = () => {
               variant="contained"
               color="primary"
               onClick={handleNext}
-              disabled={!pagination.has_next || paginationLoading}
+              disabled={!data?.page?.has_next || isLoading}
             >
               Next
             </Button>
@@ -147,13 +121,13 @@ const Record = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {records.length === 0 ? (
+              {data?.records?.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} align="center">
                     No records found
                   </TableCell>
                 </TableRow>
-              ) : (records.map((recordItem) => (
+              ) : (data?.records?.map((recordItem) => (
                 <TableRow key={recordItem.id}>
                   <TableCell align="center">{recordItem.id}</TableCell>
                   <TableCell align="center">{recordItem?.sentiment}</TableCell>
@@ -168,6 +142,7 @@ const Record = () => {
           </Table>
         </TableContainer>
       </Container>
+      <Footer />
     </>
   );
 };

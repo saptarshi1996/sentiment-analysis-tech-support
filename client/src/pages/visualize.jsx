@@ -1,43 +1,56 @@
 import { useEffect, useState } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement } from 'chart.js';
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement
+} from 'chart.js';
 import { useLocation } from 'react-router-dom';
-import { Container, Box, Typography, Paper, CircularProgress, ButtonGroup, Button } from '@mui/material';
+import {
+  Container,
+  Box,
+  Typography,
+  Paper,
+  CircularProgress,
+  ButtonGroup,
+  Button
+} from '@mui/material';
 
-import { useSentimentCountMutation } from '../hooks/record';
+import { useSentimentCountQuery } from '../hooks/record';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement
+);
 
 const Visualize = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const exportID = queryParams.get('export_id');
 
-  const [sentiments, setSentiments] = useState({});
-  const [summary, setSummary] = useState('');
-  const [loading, setLoading] = useState(true);
   const [chartType, setChartType] = useState('bar');
 
-  const sentimentCountMutation = useSentimentCountMutation();
+  const {
+    data,
+    isLoading,
+    refetch,
+  } = useSentimentCountQuery({ export_id: exportID });
 
   useEffect(() => {
-    fetchSentiments();
-  }, []);
-
-  const fetchSentiments = async () => {
-    try {
-      const response = await sentimentCountMutation.mutateAsync({
-        export_id: exportID,
-      });
-      setSentiments({ ...response.sentiments });
-      setSummary(response.summary);
-    } catch (error) {
-      console.error('Error fetching sentiment data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    refetch();
+  }, [exportID, refetch])
 
   const chartData = {
     labels: ['Positive', 'Negative', 'Neutral', 'Mixed'],
@@ -45,10 +58,10 @@ const Visualize = () => {
       {
         label: 'Sentiment Counts',
         data: [
-          sentiments.positive || 0,
-          sentiments.negative || 0,
-          sentiments.neutral || 0,
-          sentiments.mixed || 0,
+          data?.sentiments.positive || 0,
+          data?.sentiments.negative || 0,
+          data?.sentiments.neutral || 0,
+          data?.sentiments.mixed || 0,
         ],
         backgroundColor: ['#4caf50', '#f44336', '#2196f3', '#ff9800'],
       },
@@ -87,7 +100,7 @@ const Visualize = () => {
               </Button>
             </ButtonGroup>
           </Box>
-          {loading ? (
+          {isLoading ? (
             <Box display="flex" justifyContent="center" alignItems="center" height="300px">
               <CircularProgress />
             </Box>
@@ -100,14 +113,14 @@ const Visualize = () => {
               )}
             </Box>
           )}
-          {summary && (
+          {data?.summary && (
             <Box mt={3} textAlign="center">
-              <Typography variant="h6">Summary</Typography>
-              <Typography>{summary}</Typography>
+              <Typography>{data?.summary}</Typography>
             </Box>
           )}
         </Paper>
       </Container>
+      <Footer />
     </>
   );
 };

@@ -1,11 +1,15 @@
 import pika
 import threading
 import time
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
+
 from shared.config.environment import RABBITMQ_HOST, RABBITMQ_PORT
 from shared.config.logger import logger
 from shared.config.constants import QUEUE
+
 from worker.workers.get_sentiment import get_sentiment
+
+from shared.helpers.queue import check_rabbitmq_health
 
 app = FastAPI()
 router = APIRouter()
@@ -24,6 +28,7 @@ def consume_messages():
             connection = pika.BlockingConnection(pika.ConnectionParameters(
                 host=RABBITMQ_HOST,
                 port=RABBITMQ_PORT,
+                heartbeat=60
             ))
             channel = connection.channel()
             channel.basic_qos(prefetch_count=PREFETCH_COUNT)
@@ -63,6 +68,14 @@ def consume_messages():
 # Start the RabbitMQ consumer in a separate thread
 thread = threading.Thread(target=consume_messages, daemon=True)
 thread.start()
+
+
+@router.get('/api/healthcheck')
+def health_check():
+    rabbitmq_status = check_rabbitmq_health()
+    if not rabbitmq_status:
+        raise HTTPException(status_code=503, detail="Failed")
+    return {"status": "ok"}
 
 
 @router.get("/")

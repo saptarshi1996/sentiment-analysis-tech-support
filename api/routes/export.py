@@ -1,5 +1,4 @@
 import uuid
-import json
 import traceback
 
 from fastapi import (
@@ -74,6 +73,9 @@ async def post_export(file: UploadFile = File(...)):
         file_content = await file.read()
         rows = read_csv(file_content)
 
+        # Used to testing with smaller data
+        # rows = rows[:5]
+
         file_id = str(uuid.uuid4())
         logger.info(file_id)
 
@@ -87,23 +89,12 @@ async def post_export(file: UploadFile = File(...)):
             processed_count=0
         )
 
-        for idx, row in enumerate(rows):
-            logger.info(idx)
-            body = row.get('body', '')
-
-            payload = {
-                "export_id": export_new.id,
-                "text_body": body,
-            }
-
-            json_payload = json.dumps(payload)
-            logger.info(json_payload)
-
-            # send message to consumer.
-            send_message(
-                queue_name='GET_SENTIMENT',
-                payload=json_payload,
-            )
+        # send message to consumer.
+        send_message(
+            queue_name='GET_SENTIMENT',
+            rows=rows,
+            export_new=export_new,
+        )
 
         response_message = [
             "Analysing sentiments. ",

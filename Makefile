@@ -18,3 +18,12 @@ down:
 
 inpip:
 	pip3 install -r requirements.txt
+
+lgapi:
+	docker compose logs api -f
+
+lgwrk:
+	docker compose logs worker -f
+
+lgsk:
+	docker compose logs websocket -f

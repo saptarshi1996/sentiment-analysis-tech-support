@@ -16,82 +16,96 @@ import {
   Input,
   InputAdornment,
 } from '@mui/material';
-import { GetApp, Upload, BarChart, Search, Clear } from '@mui/icons-material'; // Import Search and Clear icons
+import { GetApp, Upload, BarChart, Search, Clear } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Navbar from '../components/Navbar';
-
 import {
-  useSearchExportMutation,
+  useExportDataQuery,
   useExportCSVMutation,
   useUploadCSVMutation,
 } from '../hooks/export';
+import Footer from '../components/Footer';
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 5;
 
 const Export = () => {
-  const [exports, setExports] = useState([]);
+  // const [exports, setExports] = useState([]);
   const [search, setSearch] = useState('');
-  const [paginationLoading, setPaginationLoading] = useState(false);
+  const [page, setPage] = useState(1);
   const [file, setFile] = useState(null);
-
+  
   const navigate = useNavigate();
 
-  const [pagination, setPagination] = useState({
-    has_next: false,
-    has_prev: false,
-    prev_page: 0,
-    next_page: 0,
-    page: 0,
-    total: 0,
-  });
-
-  const searchExportMutation = useSearchExportMutation();
+  // const exportDataQuery = useExportDataQuery();
   const exportCSVMutation = useExportCSVMutation();
   const uploadCSVMutation = useUploadCSVMutation();
 
+  const {
+    data,
+    isLoading,
+    refetch,
+  } = useExportDataQuery({ page: page, file_name: search, limit: ITEMS_PER_PAGE }, {
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+  });
+
   useEffect(() => {
-    fetchData({ page_number: 1 });
-  }, []);
+    console.log(page);
+    refetch();
+  }, [page, search, refetch]);
 
-  const fetchData = async ({ page_number, file_name }) => {
-    setPaginationLoading(true);
-    const response = await searchExportMutation.mutateAsync({
-      limit: ITEMS_PER_PAGE,
-      page: page_number,
-      file_name,
-    });
-    const { exports, page } = response;
+  useEffect(() => {
 
-    setPagination({ ...page });
-    setExports(exports);
-    setPaginationLoading(false);
-  };
+    let socket;
+
+    const connectWebSocket = () => {
+      const socket = new WebSocket(`${import.meta.env.VITE_SOCKET_URL}ws`);
+      socket.onopen = () => console.log('WebSocket connected');
+      socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        if (message?.trigger === 'REFETCH') {
+          refetch();
+        }
+
+        if (message?.trigger === 'NOTIFICATION') {
+          toast.info(message?.message || '');
+        }
+      };
+      socket.onclose = () => {
+        console.log('Socket disconnected');
+        setTimeout(connectWebSocket, 1000);
+      };
+
+      return () => {
+        socket.close();
+      };
+    };
+
+    connectWebSocket();
+
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+    };
+  }, [refetch]);
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
-    fetchData({ file_name: event.target.value });
   };
 
   const handleClearSearch = () => {
     setSearch('');
-    fetchData({ file_name: '' });
   };
 
   const handleNext = async () => {
-    if (pagination.next_page)
-      await fetchData({
-        page_number: pagination.next_page,
-        file_name: search,
-      });
+    setPage(data?.page?.next_page);
   };
 
   const handlePrev = async () => {
-    if (pagination.prev_page)
-      await fetchData({
-        page_number: pagination.prev_page,
-        file_name: search,
-      });
+    setPage(data?.page?.prev_page);
   };
 
   const handleExport = async (id) => {
@@ -121,7 +135,6 @@ const Export = () => {
   };
 
   const handleUpload = async () => {
-    setPaginationLoading(true);
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
@@ -132,9 +145,8 @@ const Export = () => {
         console.log(error);
       }
 
-      await fetchData({});
+      await refetch();
     }
-    setPaginationLoading(false);
     setFile(null);
   };
 
@@ -198,7 +210,7 @@ const Export = () => {
               variant="contained"
               color="primary"
               onClick={handlePrev}
-              disabled={!pagination.has_prev || paginationLoading}
+              disabled={!data?.page?.has_prev || isLoading}
               sx={{ ml: 2 }}
             >
               Previous
@@ -207,7 +219,7 @@ const Export = () => {
               variant="contained"
               color="primary"
               onClick={handleNext}
-              disabled={!pagination.has_next || paginationLoading}
+              disabled={!data?.page?.has_next || isLoading}
             >
               Next
             </Button>
@@ -219,21 +231,21 @@ const Export = () => {
               <TableRow>
                 <TableCell align="center" sx={{ fontWeight: 'bold' }}>ID</TableCell>
                 <TableCell align="center" sx={{ fontWeight: 'bold' }}>File Name</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 'bold' }}>File ID</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 'bold' }}>Record Count</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 'bold' }}>Processed Count</TableCell>
+                {/* <TableCell align="center" sx={{ fontWeight: 'bold' }}>File ID</TableCell> */}
+                <TableCell align="center" sx={{ fontWeight: 'bold' }}>Total</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 'bold' }}>Processed</TableCell>
                 <TableCell align="center" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {exports.length === 0 ? (
+              {!data || data?.exports?.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} align="center">
                     No records found
                   </TableCell>
                 </TableRow>
               ) : (
-                exports.map((exportItem) => (
+                data?.exports?.map((exportItem) => (
                   <TableRow key={exportItem?.id}>
                     <TableCell align="center">{exportItem?.id}</TableCell>
                     <TableCell
@@ -243,7 +255,7 @@ const Export = () => {
                     >
                       {exportItem.file_name}
                     </TableCell>
-                    <TableCell align="center">{exportItem?.file_id || ''}</TableCell>
+                    {/* <TableCell align="center">{exportItem?.file_id || ''}</TableCell> */}
                     <TableCell align="center">{exportItem?.record_count || ''}</TableCell>
                     <TableCell align="center">{exportItem?.processed_count || '0'}</TableCell>
                     <TableCell align="center">
@@ -271,6 +283,7 @@ const Export = () => {
           </Table>
         </TableContainer>
       </Container>
+      <Footer />
     </>
   );
 };

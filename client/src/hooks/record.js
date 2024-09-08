@@ -1,19 +1,20 @@
 import {
-  useMutation,
+  useQuery,
 } from 'react-query';
 
 import axios from '../utils/axios';
 
-export const useSearchRecordMutation = () => {
-  const searchRecordMutation = useMutation(async ({
+export const useSearchRecordQuery = (params) => {
+  const {
     limit,
     page,
     export_id,
     sentiment,
-  }) => {
+  } = params;
+
+  return useQuery(['recordData', params], async () => {
     try {
       let url = '/record';
-
       url += `?limit=${limit}`;
 
       if (page) {
@@ -33,14 +34,13 @@ export const useSearchRecordMutation = () => {
     } catch (err) {
       return err.response || err.message || 'Error';
     }
-
-  })
-
-  return searchRecordMutation
+  });
 }
 
-export const useSentimentCountMutation = () => {
-  const sentimentCountMutation = useMutation(async ({ export_id }) => {
+export const useSentimentCountQuery = (params) => {
+  const { export_id } = params;
+
+  return useQuery(['sentimentCount', params], async () => {
     try {
       let url = '/record/sentiment';
 
@@ -54,6 +54,4 @@ export const useSentimentCountMutation = () => {
       return err.response || err.message || 'Error';
     }
   });
-
-  return sentimentCountMutation
-} 
+}

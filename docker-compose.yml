@@ -10,13 +10,18 @@ services:
       - "8081:8081"
     expose:
       - 8081
-    restart: always
+    restart: on-failure
     depends_on:
       - mysql
       - rabbitmq
     volumes:
       - ./api:/app/api
       - ./shared:/app/shared
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/api/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - sats
     command: ["./wait-for-it.sh", "rabbitmq:5672", "--", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8081", "--reload"]
@@ -32,7 +37,7 @@ services:
       - "8082:8082"
     expose:
       - 8082
-    restart: always
+    restart: on-failure
     depends_on:
       - mysql
       - rabbitmq
@@ -42,7 +47,35 @@ services:
       - ./shared:/app/shared
     networks:
       - sats
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/api/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     command: ["./wait-for-it.sh", "rabbitmq:5672", "--", "uvicorn", "worker.main:app", "--host", "0.0.0.0", "--port", "8082", "--reload"]
+
+  websocket:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - module=websocket
+    env_file: .env
+    ports:
+      - "8083:8083"
+    expose:
+      - 8083
+    restart: on-failure
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    volumes:
+      - ./websocket:/app/websocket
+      - ./shared:/app/shared
+    networks:
+      - sats
+    command: ["./wait-for-it.sh", "rabbitmq:5672", "--", "uvicorn", "websocket.main:app", "--host", "0.0.0.0", "--port", "8083", "--reload"]
 
   rabbitmq:
     image: rabbitmq:3.12-management
