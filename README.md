@@ -37,6 +37,8 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 - Node.js 14.x or higher
 - Mysql
 - RabbitMQ
+- Docker
+- Docker Compose
 
 ## Initial
 
