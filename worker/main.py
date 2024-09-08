@@ -20,7 +20,6 @@ RECONNECT_DELAY = 5
 
 
 def consume_messages():
-    """Continuously consume messages from RabbitMQ with auto-reconnect."""
     while True:
         try:
             connection = pika.BlockingConnection(pika.ConnectionParameters(

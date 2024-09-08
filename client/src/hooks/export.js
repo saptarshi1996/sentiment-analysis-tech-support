@@ -73,7 +73,7 @@ export const useUploadCSVMutation = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      const { message } = response.data; // Handle the response as needed
+      const { message } = response.data;
       if (message) {
         toast.success(message);
       }
