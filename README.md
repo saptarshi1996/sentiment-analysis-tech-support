@@ -168,5 +168,3 @@ Access the Swagger documentation for the API at [http://localhost:8081/docs](htt
 ![Swagger Documentation](screenshots/swagger.png)
 
 ---
-
-Let me know if you need further improvements or additional details!
