@@ -15,11 +15,14 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 ## Screenshots
 
 ### Export page
+![Alt text](/export.png "export")
 
 ### Record page
+![Alt text](screenshots/record.png "record")
 
 ### Visualization page
-
+![Alt text](screenshots/visualize.png "visualize")
+screenshots
 ## Tech Stack
 
 - **Backend**: FastAPI
