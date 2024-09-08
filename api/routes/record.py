@@ -70,7 +70,8 @@ async def sentiment(
             f"There {sentiments['negative']} negative feedback.",
             f"There {sentiments['neutral']} neutral feedback.",
             f"There {sentiments['mixed']} mixed feedback.",
-            "A single line without here you are looking or other."
+            "A single line without here you are looking or other.",
+            "Also add how it affects the business."
         ]
 
         prompt = "".join(content_prompt)

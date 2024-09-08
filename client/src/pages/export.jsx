@@ -211,39 +211,47 @@ const Export = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {exports.map((exportItem) => (
-                <TableRow key={exportItem?.id}>
-                  <TableCell align="center">{exportItem?.id}</TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{ cursor: 'pointer', color: 'primary.main' }} // Add cursor style and color
-                    onClick={() => handleRowClick(exportItem.id)}
-                  >
-                    {exportItem.file_name}
-                  </TableCell>
-                  <TableCell align="center">{exportItem?.file_id || ''}</TableCell>
-                  <TableCell align="center">{exportItem?.record_count || ''}</TableCell>
-                  <TableCell align="center">{exportItem?.processed_count || ''}</TableCell>
-                  <TableCell align="center">
-                    <Tooltip title="Export">
-                      <IconButton
-                        color="primary"
-                        onClick={() => handleExport(exportItem?.id)}
-                      >
-                        <GetApp />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Visualize">
-                      <IconButton
-                        color="secondary"
-                        onClick={() => navigate(`/visualize?export_id=${exportItem?.id}`)}
-                      >
-                        <BarChart /> {/* Replace this with another icon if needed */}
-                      </IconButton>
-                    </Tooltip>
+              {exports.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">
+                    No records found
                   </TableCell>
                 </TableRow>
-              ))}
+              ) :
+                (exports.map((exportItem) => (
+                  <TableRow key={exportItem?.id}>
+                    <TableCell align="center">{exportItem?.id}</TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{ cursor: 'pointer', color: 'primary.main' }} // Add cursor style and color
+                      onClick={() => handleRowClick(exportItem.id)}
+                    >
+                      {exportItem.file_name}
+                    </TableCell>
+                    <TableCell align="center">{exportItem?.file_id || ''}</TableCell>
+                    <TableCell align="center">{exportItem?.record_count || ''}</TableCell>
+                    <TableCell align="center">{exportItem?.processed_count || '0'}</TableCell>
+                    <TableCell align="center">
+                      <Tooltip title="Export">
+                        <IconButton
+                          color="primary"
+                          onClick={() => handleExport(exportItem?.id)}
+                        >
+                          <GetApp />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Visualize">
+                        <IconButton
+                          color="secondary"
+                          onClick={() => navigate(`/visualize?export_id=${exportItem?.id}`)}
+                        >
+                          <BarChart /> {/* Replace this with another icon if needed */}
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))
+                )}
             </TableBody>
           </Table>
         </TableContainer>

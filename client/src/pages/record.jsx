@@ -147,16 +147,23 @@ const Record = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {records.map((recordItem) => (
+              {records.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    No records found
+                  </TableCell>
+                </TableRow>
+              ) : (records.map((recordItem) => (
                 <TableRow key={recordItem.id}>
                   <TableCell align="center">{recordItem.id}</TableCell>
                   <TableCell align="center">{recordItem?.sentiment}</TableCell>
                   <TableCell align="center">{
-                    recordItem?.sentiment === 'Neutral' || recordItem?.sentiment === 'Mixed' ? 
-                    '-' : recordItem?.summary}</TableCell>
+                    recordItem?.sentiment === 'Neutral' || recordItem?.sentiment === 'Mixed' ?
+                      '-' : recordItem?.summary}</TableCell>
                   <TableCell align="center">{recordItem?.export_id || '-'}</TableCell>
                 </TableRow>
-              ))}
+              ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>
