@@ -13,9 +13,10 @@ import {
   Box,
   IconButton,
   Tooltip,
-  Input
+  Input,
+  InputAdornment,
 } from '@mui/material';
-import { GetApp, Upload, BarChart } from '@mui/icons-material';
+import { GetApp, Upload, BarChart, Search, Clear } from '@mui/icons-material'; // Import Search and Clear icons
 import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../components/Navbar';
@@ -58,7 +59,7 @@ const Export = () => {
     const response = await searchExportMutation.mutateAsync({
       limit: ITEMS_PER_PAGE,
       page: page_number,
-      file_name
+      file_name,
     });
     const { exports, page } = response;
 
@@ -70,6 +71,11 @@ const Export = () => {
   const handleSearch = (event) => {
     setSearch(event.target.value);
     fetchData({ file_name: event.target.value });
+  };
+
+  const handleClearSearch = () => {
+    setSearch('');
+    fetchData({ file_name: '' });
   };
 
   const handleNext = async () => {
@@ -90,24 +96,20 @@ const Export = () => {
 
   const handleExport = async (id) => {
     const response = await exportCSVMutation.mutateAsync({
-      export_id: id
+      export_id: id,
     });
 
     if (!response) {
       return;
     }
 
-    // Create a Blob from the CSV content and generate a download link
     const blob = new Blob([response], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
 
     if (link.download !== undefined) {
-      // Create a URL for the Blob and set it as the href attribute
       const url = URL.createObjectURL(blob);
       link.setAttribute('href', url);
       link.setAttribute('download', `sentiment_analysis_${id}.csv`);
-
-      // Append the link to the document and trigger a click event
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -151,19 +153,33 @@ const Export = () => {
             value={search}
             onChange={handleSearch}
             sx={{ flexGrow: 1, mr: 2 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+              endAdornment: search && (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClearSearch}>
+                    <Clear />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Box display="flex" alignItems="center" gap={2}>
             <Input
               type="file"
               accept=".csv"
               onChange={handleFileChange}
-              sx={{ display: 'none' }} // Hide the default input
+              sx={{ display: 'none' }}
               id="upload-csv"
             />
             <label htmlFor="upload-csv">
               <Button
-                variant="contained"
-                color="secondary"
+                variant="outlined"
+                color="primary"
                 component="span"
                 startIcon={<Upload />}
               >
@@ -171,7 +187,7 @@ const Export = () => {
               </Button>
             </label>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               onClick={handleUpload}
               disabled={!file}
@@ -192,7 +208,6 @@ const Export = () => {
               color="primary"
               onClick={handleNext}
               disabled={!pagination.has_next || paginationLoading}
-            // sx={{ ml: 1 }}
             >
               Next
             </Button>
@@ -217,13 +232,13 @@ const Export = () => {
                     No records found
                   </TableCell>
                 </TableRow>
-              ) :
-                (exports.map((exportItem) => (
+              ) : (
+                exports.map((exportItem) => (
                   <TableRow key={exportItem?.id}>
                     <TableCell align="center">{exportItem?.id}</TableCell>
                     <TableCell
                       align="center"
-                      sx={{ cursor: 'pointer', color: 'primary.main' }} // Add cursor style and color
+                      sx={{ cursor: 'pointer', color: 'primary.main' }}
                       onClick={() => handleRowClick(exportItem.id)}
                     >
                       {exportItem.file_name}
@@ -245,13 +260,13 @@ const Export = () => {
                           color="secondary"
                           onClick={() => navigate(`/visualize?export_id=${exportItem?.id}`)}
                         >
-                          <BarChart /> {/* Replace this with another icon if needed */}
+                          <BarChart />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))
-                )}
+              )}
             </TableBody>
           </Table>
         </TableContainer>

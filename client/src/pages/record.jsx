@@ -100,7 +100,7 @@ const Record = () => {
       <Navbar />
       <Container>
         <Box display="flex" justifyContent="space-between" alignItems="center" mt={2} mb={2}>
-          <FormControl variant="outlined" sx={{ minWidth: 120, mb: 2 }}>
+          <FormControl variant="outlined" sx={{ minWidth: 200, mb: 2 }}>
             <InputLabel>Sentiment</InputLabel>
             <Select
               value={selectedSentiment}

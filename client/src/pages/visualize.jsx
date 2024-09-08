@@ -1,14 +1,13 @@
-// SentimentChart.jsx
 import { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import { Bar, Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement } from 'chart.js';
 import { useLocation } from 'react-router-dom';
-import { Container, Box, Typography, Paper, CircularProgress } from '@mui/material';
+import { Container, Box, Typography, Paper, CircularProgress, ButtonGroup, Button } from '@mui/material';
 
 import { useSentimentCountMutation } from '../hooks/record';
 import Navbar from '../components/Navbar';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
 const Visualize = () => {
   const location = useLocation();
@@ -17,8 +16,8 @@ const Visualize = () => {
 
   const [sentiments, setSentiments] = useState({});
   const [summary, setSummary] = useState('');
-
   const [loading, setLoading] = useState(true);
+  const [chartType, setChartType] = useState('bar');
 
   const sentimentCountMutation = useSentimentCountMutation();
 
@@ -77,23 +76,36 @@ const Visualize = () => {
     <>
       <Navbar />
       <Container sx={{ mt: 4 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Sentiment Analysis
-        </Typography>
         <Paper elevation={3} sx={{ p: 3 }}>
+          <Box mb={2} textAlign="center">
+            <ButtonGroup variant="contained" aria-label="chart type selector">
+              <Button onClick={() => setChartType('bar')} color={chartType === 'bar' ? 'primary' : 'default'}>
+                Bar Chart
+              </Button>
+              <Button onClick={() => setChartType('pie')} color={chartType === 'pie' ? 'primary' : 'default'}>
+                Pie Chart
+              </Button>
+            </ButtonGroup>
+          </Box>
           {loading ? (
             <Box display="flex" justifyContent="center" alignItems="center" height="300px">
               <CircularProgress />
             </Box>
           ) : (
-            <Box height="300px"> {/* Adjust the chart size */}
-              <Bar data={chartData} options={chartOptions} />
+            <Box height="300px">
+              {chartType === 'bar' ? (
+                <Bar data={chartData} options={chartOptions} />
+              ) : (
+                <Pie data={chartData} options={chartOptions} />
+              )}
             </Box>
           )}
-          <Box mt={3} textAlign="center"> {/* Summary section */}
-            <Typography variant="h6">Summary</Typography>
-            <Typography>{summary}</Typography>
-          </Box>
+          {summary && (
+            <Box mt={3} textAlign="center">
+              <Typography variant="h6">Summary</Typography>
+              <Typography>{summary}</Typography>
+            </Box>
+          )}
         </Paper>
       </Container>
     </>

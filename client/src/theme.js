@@ -1,7 +1,12 @@
 // src/theme.js
 import { createTheme } from '@mui/material/styles';
 
+import '@fontsource/poppins';
+
 const theme = createTheme({
+  typography: {
+    fontFamily: '"Poppins", sans-serif',
+  },
   palette: {
     mode: 'light',
     primary: {
@@ -25,7 +30,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none', // Prevent uppercase text transformation
+          textTransform: 'none',
         },
       },
     },
