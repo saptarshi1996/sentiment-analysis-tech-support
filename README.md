@@ -1,29 +1,33 @@
+Here's an improved and properly formatted markdown version of your project documentation for **Sentiment Analysis Tech Support**:
+
+---
+
 # Sentiment Analysis Tech Support
 
 ## Overview
 
-The **Sentiment Analysis Tech Support** project provides a solution for analyzing customer feedback through sentiment analysis. It consists of a backend API built with FastAPI and a frontend web application built with React.js with Vite. This application allows users to upload feedback in CSV format, analyze its sentiment, and view results in a structured format.
+The **Sentiment Analysis Tech Support** project provides a comprehensive solution for analyzing customer feedback through sentiment analysis. It consists of a backend API built with FastAPI and a frontend web application built with React.js using Vite. This application allows users to upload feedback in CSV format, analyze its sentiment in real-time, and view the results in a structured format.
 
 ## Features
 
-- **CSV Upload**: Upload customer feedback in CSV format.
-- **Sentiment Analysis**: Realtime Analyze sentiment using an external sentiment analysis API.
-- **Results Export**: Download results in CSV format.
-- **Visualization**: View sentiment distribution and key themes through charts.
+- **CSV Upload**: Easily upload customer feedback in CSV format.
+- **Sentiment Analysis**: Analyze sentiment in real-time using an external sentiment analysis API.
+- **Results Export**: Download analyzed results in CSV format.
+- **Visualization**: View sentiment distribution and key themes through various charts.
 
 ## Screenshots
 
-### Export page
-![Alt text](screenshots/export.png "export")
+### Export Page
+![Export Page](screenshots/export.png)
 
-### Record page
-![Alt text](screenshots/record.png "record")
+### Record Page
+![Record Page](screenshots/record.png)
 
-### Visualization page
-![Alt text](screenshots/barchart.png "visualize")
+### Visualization - Bar Chart
+![Bar Chart](screenshots/barchart.png)
 
-### Visualization page
-![Alt text](screenshots/piechart.png "visualize")
+### Visualization - Pie Chart
+![Pie Chart](screenshots/piechart.png)
 
 ## Tech Stack
 
@@ -33,7 +37,7 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 - **Message Queue**: RabbitMQ
 - **Sentiment Analysis**: Groq API
 - **Visualization**: Chart.js
-- **Realtime**: Websockets
+- **Realtime**: WebSockets
 
 ## Getting Started
 
@@ -41,84 +45,117 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 - Python 3.8 or higher
 - PIP
-- Node.js 20.0x or higher
+- Node.js 20.0.x or higher
 - NVM (Node Version Manager)
 - Docker
 - Docker Compose
-- make - GNU make utility to maintain groups of programs
+- `make` - GNU make utility to maintain groups of programs
 
-## Setup
+### Setup
 
-1. Create a `.env` from `.env.example` file in the root directory with the following content:
-```env
-    GROQ_API_KEY=
-    SOCKET_URL=http://websocket:8083
-    RABBITMQ_HOST=rabbitmq
-    RABBITMQ_PORT=5672
-    DB_USER=user
-    DB_PASSWORD=password
-    DB_NAME=sentiment
-    DB_PORT=3306
-    DB_HOST=mysql
-```
+1. **Create Environment Variables**
 
-2. Create a `.env` from `.env.example` file in the client/ directory with the following content:
-```env
-    VITE_BACKEND_URL=http://localhost:8081/api
-    VITE_SOCKET_URL=ws://localhost:8083
-```
+   Create a `.env` file in the root directory from `.env.example` with the following content:
 
-3. Run the following commands:
-```bash
-    python3 -m venv venv
-    make inpip
-    nvm use 20.11.1
-    cd client && npm install
-    make rabbitsql
-```
+   ```env
+   GROQ_API_KEY=
+   SOCKET_URL=http://websocket:8083
+   RABBITMQ_HOST=rabbitmq
+   RABBITMQ_PORT=5672
+   DB_USER=user
+   DB_PASSWORD=password
+   DB_NAME=sentiment
+   DB_PORT=3306
+   DB_HOST=mysql
+   ```
 
-4. Create a database named sentiment and the tables using init.sql file or manually.
+2. **Frontend Environment Variables**
 
-5. Queue will generated automatically on running the worker service.
+   Create a `.env` file in the `client/` directory from `.env.example` with the following content:
 
-6. To open rabbitmq UI. Go to: http://localhost:15672. 
-    ```bash
-    Username: guest
-    Password: guest.
-    ```
+   ```env
+   VITE_BACKEND_URL=http://localhost:8081/api
+   VITE_SOCKET_URL=ws://localhost:8083
+   ```
 
-### Schema
+3. **Install Dependencies**
 
-![Alt text](screenshots/schema.png "schema")
+   Run the following commands to set up the environment:
 
-### Backend
+   ```bash
+   python3 -m venv venv
+   make inpip
+   nvm use 20.11.1
+   cd client && npm install
+   make rabbitsql
+   ```
 
-1. To run backend microservices after initial setup:
-    ```bash
-    make dev
-    ```
+4. **Database Setup**
 
-2. To view logs of the api, worker and socket services respectively:
-    ```bash
-    make lgapi
-    make lgwrk
-    make lgsk
-    ```
+   Create a database named `sentiment` and initialize the tables using the `init.sql` file or set them up manually.
 
-### Frontend
+5. **Queue Initialization**
 
-1. Run the ReactJS development server:
-    ```bash
-    cd client
-    npm run dev
-    ```
-2. Generate production build client:
-    ```bash
-    npm run build
-    ```
+   The RabbitMQ queue will be generated automatically when running the worker service.
 
-## Swagger
+6. **Access RabbitMQ UI**
 
-Open http://localhost:8081/docs to open swagger docs.
+   To access the RabbitMQ Management UI, visit: [http://localhost:15672](http://localhost:15672). Use the following credentials:
 
-![Alt text](screenshots/swagger.png "visualize")
+   ```plaintext
+   Username: guest
+   Password: guest
+   ```
+
+### Database Schema
+
+![Database Schema](screenshots/schema.png)
+
+## Backend Setup
+
+1. **Run Backend Microservices**
+
+   After the initial setup, start the backend services with:
+
+   ```bash
+   make dev
+   ```
+
+2. **View Service Logs**
+
+   To view logs of the API, worker, and socket services respectively:
+
+   ```bash
+   make lgapi
+   make lgwrk
+   make lgsk
+   ```
+
+## Frontend Setup
+
+1. **Run Development Server**
+
+   Start the ReactJS development server:
+
+   ```bash
+   cd client
+   npm run dev
+   ```
+
+2. **Generate Production Build**
+
+   Create a production build for the client:
+
+   ```bash
+   npm run build
+   ```
+
+## API Documentation
+
+Access the Swagger documentation for the API at [http://localhost:8081/docs](http://localhost:8081/docs).
+
+![Swagger Documentation](screenshots/swagger.png)
+
+---
+
+Let me know if you need further improvements or additional details!
