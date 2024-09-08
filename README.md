@@ -134,7 +134,10 @@ The **Sentiment Analysis Tech Support** project provides a solution for analyzin
 
 ## Swagger
 
-Open http://localhost:8081/docs to open swagger docs
+Open http://localhost:8081/docs to open swagger docs.
+
+![Alt text](screenshots/swagger.png "visualize")
+
 
 ## Frontend
 
