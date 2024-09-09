@@ -59,7 +59,6 @@ def update_processed_count(export_id):
         Export.id == export_id
     ).first()
 
-    logger.info("88................")
     logger.info(export_id)
 
     logger.info(f"Count: {export_record.processed_count}")
