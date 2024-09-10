@@ -73,8 +73,8 @@ async def post_export(file: UploadFile = File(...)):
         file_content = await file.read()
         rows = read_csv(file_content)
 
-        # Used to testing with smaller data
-        # rows = rows[:5]
+        # Used for testing with smaller data
+        # rows = rows[:15]
 
         file_id = str(uuid.uuid4())
         logger.info(file_id)
