@@ -137,6 +137,7 @@ const Export = () => {
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
+    event.target.value = null;
   };
 
   const handleUpload = async () => {
