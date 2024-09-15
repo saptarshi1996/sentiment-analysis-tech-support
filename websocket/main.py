@@ -28,7 +28,7 @@ class Notification(BaseModel):
     message: str
 
 
-clients = []  # to store clients.
+clients = []
 
 
 @app.websocket("/ws")
