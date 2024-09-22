@@ -51,6 +51,7 @@ def get_sentiments(export_id):
     else:
         query = db.query(Record)
 
+    # Get all responses.
     positive = query.filter(Record.sentiment == "Positive").count()
     negative = query.filter(Record.sentiment == "Negative").count()
     neutral = query.filter(Record.sentiment == "Neutral").count()
