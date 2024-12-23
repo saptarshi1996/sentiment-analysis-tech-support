@@ -4,7 +4,7 @@ import {
 
 import axios from '../utils/axios';
 
-export const useSearchRecordQuery = (params) => {
+export const useSearchRecordQuery = params => {
   const {
     limit,
     page,
@@ -37,7 +37,7 @@ export const useSearchRecordQuery = (params) => {
   });
 }
 
-export const useSentimentCountQuery = (params) => {
+export const useSentimentCountQuery = params => {
   const { export_id } = params;
 
   return useQuery(['sentimentCount', params], async () => {
