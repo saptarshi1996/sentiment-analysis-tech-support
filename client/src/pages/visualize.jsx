@@ -7,6 +7,7 @@ import {
   Legend,
   BarElement,
   CategoryScale,
+  LinearScale,
   ArcElement
 } from 'chart.js';
 import { useLocation } from 'react-router-dom';
