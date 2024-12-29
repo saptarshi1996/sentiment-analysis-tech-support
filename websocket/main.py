@@ -1,3 +1,5 @@
+import json
+
 from fastapi import (
     FastAPI,
     WebSocket,
@@ -6,7 +8,6 @@ from fastapi import (
     Query
 )
 from fastapi.middleware.cors import CORSMiddleware
-import json
 
 from pydantic import BaseModel
 
