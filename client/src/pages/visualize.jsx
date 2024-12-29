@@ -34,7 +34,7 @@ ChartJS.register(
   BarElement,
   CategoryScale,
   LinearScale,
-  ArcElement
+  ArcElement,
 );
 
 const Visualize = () => {
