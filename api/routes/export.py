@@ -21,7 +21,6 @@ from shared.repository.export import (
     get_records_by_export_id,
 )
 
-
 export_router = APIRouter(prefix="/api/export")
 
 
