@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect
+} from 'react';
+
 import {
   Container,
   Table,
@@ -15,6 +19,7 @@ import {
   InputLabel,
   FormControl
 } from '@mui/material';
+
 import { useLocation } from 'react-router-dom';
 
 import Navbar from '../components/Navbar';

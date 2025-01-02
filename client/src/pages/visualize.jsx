@@ -1,5 +1,13 @@
-import { useEffect, useState } from 'react';
-import { Bar, Pie } from 'react-chartjs-2';
+import {
+  useEffect,
+  useState
+} from 'react';
+
+import {
+  Bar,
+  Pie
+} from 'react-chartjs-2';
+
 import {
   Chart as ChartJS,
   Title,
@@ -10,7 +18,11 @@ import {
   LinearScale,
   ArcElement
 } from 'chart.js';
-import { useLocation } from 'react-router-dom';
+
+import {
+  useLocation
+} from 'react-router-dom';
+
 import {
   Container,
   Box,
@@ -20,9 +32,15 @@ import {
   ButtonGroup,
   IconButton
 } from '@mui/material';
-import { BarChart, PieChart } from '@mui/icons-material';
 
-import { useSentimentCountQuery } from '../hooks/record';
+import {
+  BarChart,
+  PieChart
+} from '@mui/icons-material';
+
+import {
+  useSentimentCountQuery
+} from '../hooks/record';
 
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
