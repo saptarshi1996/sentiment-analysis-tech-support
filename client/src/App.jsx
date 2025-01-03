@@ -28,17 +28,17 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Export />} />
-          <Route path="/record" element={<Record />} />
-          <Route path="/visualize" element={<Visualize />} />
-        </Routes>
-      </Router>
-      <ToastContainer />
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Export />} />
+            <Route path="/record" element={<Record />} />
+            <Route path="/visualize" element={<Visualize />} />
+          </Routes>
+        </Router>
+        <ToastContainer />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
