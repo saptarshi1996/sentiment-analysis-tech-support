@@ -10,7 +10,7 @@ export const useSearchRecordQuery = params => {
     sentiment,
   } = params;
 
-  return useQuery(['recordData', params], async () => {
+  const searchRecord = useQuery(['recordData', params], async () => {
     try {
       let url = '/record';
       url += `?limit=${limit}`;
@@ -33,12 +33,14 @@ export const useSearchRecordQuery = params => {
       return err.response || err.message || 'Error';
     }
   });
+
+  return searchRecord;
 }
 
 export const useSentimentCountQuery = params => {
   const { export_id } = params;
 
-  return useQuery(['sentimentCount', params], async () => {
+  const sentimentCount = useQuery(['sentimentCount', params], async () => {
     try {
       let url = '/record/sentiment';
 
@@ -52,4 +54,6 @@ export const useSentimentCountQuery = params => {
       return err.response || err.message || 'Error';
     }
   });
+
+  return sentimentCount;
 }

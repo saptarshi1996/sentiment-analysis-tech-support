@@ -14,7 +14,7 @@ export const useExportDataQuery = (params) => {
     file_name
   } = params;
 
-  return useQuery(['exportData', params], async () => {
+  const exportData = useQuery(['exportData', params], async () => {
     try {
       let url = '/export';
 
@@ -40,6 +40,8 @@ export const useExportDataQuery = (params) => {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
   });
+
+  return exportData;
 };
 
 export const useExportCSVMutation = () => {
