@@ -1,6 +1,4 @@
-import {
-  useQuery,
-} from 'react-query';
+import { useQuery } from 'react-query';
 
 import axios from '../utils/axios';
 
