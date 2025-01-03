@@ -3,8 +3,8 @@ import {
   Button,
   AppBar,
   Toolbar,
-  Typography,
   Container,
+  Typography,
 } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
