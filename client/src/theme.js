@@ -1,9 +1,8 @@
-// src/theme.js
 import { createTheme } from '@mui/material/styles';
 
 import '@fontsource/poppins';
 
-const theme = createTheme({
+export default createTheme({
   typography: {
     fontFamily: '"Poppins", sans-serif',
   },
@@ -36,5 +35,3 @@ const theme = createTheme({
     },
   },
 });
-
-export default theme;
