@@ -12,9 +12,9 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const handleNavigation = (path) => {
+  const handleNavigation = path => {
     navigate(path);
-  };
+  }
 
   return (
     <AppBar position="static" color="primary" sx={{ mb: 4, boxShadow: 'none' }}>
