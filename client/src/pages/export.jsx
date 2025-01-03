@@ -43,7 +43,7 @@ import {
 
 const ITEMS_PER_PAGE = 5;
 
-const Export = () => {
+export default function Export() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [file, setFile] = useState(null);
@@ -299,5 +299,3 @@ const Export = () => {
     </>
   );
 };
-
-export default Export;

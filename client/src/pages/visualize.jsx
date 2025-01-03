@@ -55,7 +55,7 @@ ChartJS.register(
   ArcElement,
 );
 
-const Visualize = () => {
+export default function Visualize() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const exportID = queryParams.get('export_id');
@@ -150,5 +150,3 @@ const Visualize = () => {
     </>
   );
 };
-
-export default Visualize;

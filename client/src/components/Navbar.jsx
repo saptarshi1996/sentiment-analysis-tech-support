@@ -9,7 +9,7 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+export default function Navbar() {
   const navigate = useNavigate();
 
   const handleNavigation = path => {
@@ -80,5 +80,3 @@ const Navbar = () => {
     </AppBar>
   );
 };
-
-export default Navbar;

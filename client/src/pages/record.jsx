@@ -36,7 +36,7 @@ const sentiments = [
   'Mixed',
 ];
 
-const Record = () => {
+export default function Record() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const exportID = queryParams.get('export_id');
@@ -53,7 +53,7 @@ const Record = () => {
     page: page,
     export_id: exportID,
     sentiment: selectedSentiment,
-    }, {
+  }, {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
   });
@@ -151,5 +151,3 @@ const Record = () => {
     </>
   );
 };
-
-export default Record;
