@@ -45,7 +45,7 @@ export const useExportDataQuery = (params) => {
 };
 
 export const useExportCSVMutation = () => {
-  const exportCSVMutation = useMutation(async ({
+  const exportCSV = useMutation(async ({
     export_id,
   }) => {
     try {
@@ -64,7 +64,7 @@ export const useExportCSVMutation = () => {
     }
   })
 
-  return exportCSVMutation
+  return exportCSV
 }
 
 export const useUploadCSVMutation = () => {
