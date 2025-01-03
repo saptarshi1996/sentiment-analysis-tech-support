@@ -21,9 +21,7 @@ import Export from './pages/export';
 import Record from './pages/record';
 import Visualize from './pages/visualize';
 
-
-function App() {
-
+export default function App() {
   const queryClient = new QueryClient();
 
   return (
@@ -42,5 +40,3 @@ function App() {
     </QueryClientProvider>
   );
 }
-
-export default App;
