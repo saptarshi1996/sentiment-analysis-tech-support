@@ -35,7 +35,6 @@ async def list_export(
     file_name: str = Query(None, description="Search by file name")
 ):
     try:
-
         exports, total = list_exports(page, limit, file_name)
 
         has_prev = page > 1
@@ -66,7 +65,6 @@ async def list_export(
 )
 async def post_export(file: UploadFile = File(...)):
     try:
-
         if file.content_type != 'text/csv':
             raise HTTPException(status_code=400, detail='Invalid file type.')
 
@@ -117,7 +115,6 @@ async def post_export(file: UploadFile = File(...)):
 )
 async def check_count(export_id: int):
     try:
-
         export = get_export_by_id(export_id)
 
         record_count = export.record_count
@@ -149,7 +146,6 @@ async def check_count(export_id: int):
 )
 async def export_csv(export_id: int):
     try:
-
         export = get_export_by_id(export_id)
 
         if not export:

@@ -1,10 +1,17 @@
 import pika
-import threading
 import time
+import threading
 
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import (
+    FastAPI,
+    APIRouter,
+    HTTPException
+)
 
-from shared.config.environment import RABBITMQ_HOST, RABBITMQ_PORT
+from shared.config.environment import (
+    RABBITMQ_HOST,
+    RABBITMQ_PORT
+)
 from shared.config.logger import logger
 from shared.config.constants import QUEUE
 from shared.helpers.queue import check_rabbitmq_health
@@ -72,5 +79,8 @@ async def root():
 
 app.include_router(router)
 
-thread = threading.Thread(target=consume_messages, daemon=True)
+thread = threading.Thread(
+    target=consume_messages,
+    daemon=True
+)
 thread.start()

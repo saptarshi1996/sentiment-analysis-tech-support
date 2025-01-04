@@ -19,7 +19,6 @@ from shared.repository.export import (
 
 def get_sentiment(ch, method, properties, body):
     try:
-
         message = json.loads(body.decode('utf-8'))
 
         text_body = message.get('text_body', None)

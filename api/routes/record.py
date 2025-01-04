@@ -6,7 +6,6 @@ from shared.helpers.groq import get_completion
 from shared.config.logger import logger
 from shared.repository.record import list_records, get_sentiments
 
-
 record_router = APIRouter(prefix="/api/record")
 
 
