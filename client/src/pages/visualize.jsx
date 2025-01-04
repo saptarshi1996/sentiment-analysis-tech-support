@@ -9,14 +9,14 @@ import {
 } from 'react-chartjs-2';
 
 import {
-  Chart as ChartJS,
   Title,
-  Tooltip,
   Legend,
+  Tooltip,
+  ArcElement,
   BarElement,
-  CategoryScale,
   LinearScale,
-  ArcElement
+  CategoryScale,
+  Chart as ChartJS,
 } from 'chart.js';
 
 import {
@@ -24,13 +24,13 @@ import {
 } from 'react-router-dom';
 
 import {
-  Container,
   Box,
-  Typography,
   Paper,
-  CircularProgress,
+  Container,
+  Typography,
+  IconButton,
   ButtonGroup,
-  IconButton
+  CircularProgress,
 } from '@mui/material';
 
 import {
