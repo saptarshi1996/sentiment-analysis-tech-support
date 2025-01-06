@@ -1,15 +1,11 @@
 import json
 import traceback
-
 import requests
 
 from shared.helpers.groq import get_completion
-
 from shared.config.environment import SOCKET_URL
-
 from shared.config.logger import logger
 from shared.config.constants import PROMPT
-
 from shared.repository.record import create_record
 from shared.repository.export import (
     update_processed_count,
