@@ -95,7 +95,7 @@ async def post_export(file: UploadFile = File(...)):
         )
 
         response_message = [
-            "Analysing sentiments. ",
+            "Analyzing sentiments. ",
             "Download export from the table."
         ]
 
@@ -121,7 +121,7 @@ async def check_count(export_id: int):
         processed_count = export.processed_count
 
         if record_count == processed_count:
-            message = "All records have been proceessed. Downloading export."
+            message = "All records have been processed. Downloading export."
             return {
                 "message": message
             }
