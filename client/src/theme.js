@@ -9,20 +9,20 @@ export default createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#2979ff', // Bright Blue
-      contrastText: '#ffffff', // White text for contrast
+      main: '#2979ff',
+      contrastText: '#ffffff',
     },
     secondary: {
-      main: '#ff4081', // Bright Pink
-      contrastText: '#ffffff', // White text for contrast
+      main: '#ff4081',
+      contrastText: '#ffffff',
     },
     background: {
-      default: '#f4f6f8', // Light grey background for the app
-      paper: '#ffffff',   // White background for paper components
+      default: '#f4f6f8',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#000000', // Black text for readability
-      secondary: '#555555', // Dark grey text for secondary content
+      primary: '#000000',
+      secondary: '#555555',
     },
   },
   components: {
