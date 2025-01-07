@@ -5,7 +5,7 @@ import {
 
 import {
   Bar,
-  Pie
+  Pie,
 } from 'react-chartjs-2';
 
 import {
