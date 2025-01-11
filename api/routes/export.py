@@ -24,15 +24,11 @@ from shared.repository.export import (
 export_router = APIRouter(prefix="/api/export")
 
 
-@export_router.get(
-    '',
-    tags=['Export'],
-    description='List exports'
-)
+@export_router.get("", tags=["Export"], description="List exports")
 async def list_export(
     page: int = Query(1, get=1),
     limit: int = Query(20, get=20),
-    file_name: str = Query(None, description="Search by file name")
+    file_name: str = Query(None, description="Search by file name"),
 ):
     try:
         exports, total = list_exports(page, limit, file_name)
@@ -49,8 +45,8 @@ async def list_export(
                 "has_prev": has_prev,
                 "has_next": has_next,
                 "prev_page": page - 1 if has_prev else None,
-                "next_page": page + 1 if has_next else None
-            }
+                "next_page": page + 1 if has_next else None,
+            },
         }
     except Exception as e:
         logger.error("An error occurred:", str(e))
@@ -59,14 +55,14 @@ async def list_export(
 
 
 @export_router.post(
-    "",
-    tags=['Export'],
-    description='Upload feedback CSV'
+    "", tags=["Export"], description="Upload feedback CSV"
 )
 async def post_export(file: UploadFile = File(...)):
     try:
-        if file.content_type != 'text/csv':
-            raise HTTPException(status_code=400, detail='Invalid file type.')
+        if file.content_type != "text/csv":
+            raise HTTPException(
+                status_code=400, detail="Invalid file type."
+            )
 
         file_content = await file.read()
         rows = read_csv(file_content)
@@ -84,24 +80,22 @@ async def post_export(file: UploadFile = File(...)):
             file.filename,
             file_id,
             record_count=record_count,
-            processed_count=0
+            processed_count=0,
         )
 
         # send message to consumer.
         send_message(
-            queue_name='GET_SENTIMENT',
+            queue_name="GET_SENTIMENT",
             rows=rows,
             export_new=export_new,
         )
 
         response_message = [
             "Analyzing sentiments. ",
-            "Download export from the table."
+            "Download export from the table.",
         ]
 
-        return {
-            "message": "".join(response_message)
-        }
+        return {"message": "".join(response_message)}
     except Exception as e:
         logger.error("An error occurred:", str(e))
         logger.error("Stack trace:", traceback.format_exc())
@@ -109,9 +103,9 @@ async def post_export(file: UploadFile = File(...)):
 
 
 @export_router.get(
-    '/{export_id}/count',
-    tags=['Export'],
-    description='Check count of processed files.'
+    "/{export_id}/count",
+    tags=["Export"],
+    description="Check count of processed files.",
 )
 async def check_count(export_id: int):
     try:
@@ -121,10 +115,10 @@ async def check_count(export_id: int):
         processed_count = export.processed_count
 
         if record_count == processed_count:
-            message = "All records have been processed. Downloading export."
-            return {
-                "message": message
-            }
+            message = (
+                "All records have been processed. Downloading export."
+            )
+            return {"message": message}
         else:
             count = "All records have not been processed."
             message = "Downloading partial export."
@@ -140,30 +134,40 @@ async def check_count(export_id: int):
 
 
 @export_router.get(
-    '/{export_id}/csv',
-    tags=['Export'],
-    description='Download CSV by export id'
+    "/{export_id}/csv",
+    tags=["Export"],
+    description="Download CSV by export id",
 )
 async def export_csv(export_id: int):
     try:
         export = get_export_by_id(export_id)
 
         if not export:
-            raise HTTPException(status_code=404, detail="Export not found")
+            raise HTTPException(
+                status_code=404, detail="Export not found"
+            )
 
         records = get_records_by_export_id(export_id)
 
         logger.info(records)
 
         if not records:
-            raise HTTPException(status_code=404, detail='Records not found')
+            raise HTTPException(
+                status_code=404, detail="Records not found"
+            )
 
-        header = ['ID', 'Sentiment', 'Summary']
-        output = write_csv([{
-            'ID': record.id,
-            'Sentiment': record.sentiment,
-            'Summary': record.summary,
-        } for record in records], header)
+        header = ["ID", "Sentiment", "Summary"]
+        output = write_csv(
+            [
+                {
+                    "ID": record.id,
+                    "Sentiment": record.sentiment,
+                    "Summary": record.summary,
+                }
+                for record in records
+            ],
+            header,
+        )
 
         file_name = f"records_{export_id}.csv"
 
@@ -172,7 +176,7 @@ async def export_csv(export_id: int):
             media_type="text/csv",
             headers={
                 "Content-Disposition": f"attachment; filename={file_name}"
-            }
+            },
         )
 
     except Exception as e:

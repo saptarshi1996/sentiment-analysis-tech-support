@@ -55,9 +55,9 @@ def add_export(
 def update_processed_count(export_id):
     db = get_db()
 
-    export_record = db.query(Export).filter(
-        Export.id == export_id
-    ).first()
+    export_record = (
+        db.query(Export).filter(Export.id == export_id).first()
+    )
 
     logger.info(export_id)
 
@@ -77,6 +77,8 @@ def get_export_by_id(export_id: int):
 
 def get_records_by_export_id(export_id: int):
     db = get_db()
-    result = db.query(Record).filter(Record.export_id == export_id).all()
+    result = (
+        db.query(Record).filter(Record.export_id == export_id).all()
+    )
     db.close()
     return result

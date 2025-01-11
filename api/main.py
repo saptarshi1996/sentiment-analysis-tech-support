@@ -1,9 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 
-from shared.helpers.queue import (
-    check_rabbitmq_health
-)
+from shared.helpers.queue import check_rabbitmq_health
 
 from api.routes.export import export_router
 from api.routes.record import record_router
@@ -12,7 +10,7 @@ from api.routes.record import record_router
 app = FastAPI(
     title="Sentiment Analysis and Export",
     description="Perform sentiment analysis of customer feedback",
-    version='1.0.0'
+    version="1.0.0",
 )
 
 app.add_middleware(
@@ -24,7 +22,9 @@ app.add_middleware(
 )
 
 
-@app.get('/api/healthcheck', tags=["Health"], description="Health check")
+@app.get(
+    "/api/healthcheck", tags=["Health"], description="Health check"
+)
 def health_check():
     rabbitmq_status = check_rabbitmq_health()
     if not rabbitmq_status:

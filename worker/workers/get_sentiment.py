@@ -15,10 +15,10 @@ from shared.repository.export import (
 
 def get_sentiment(ch, method, properties, body):
     try:
-        message = json.loads(body.decode('utf-8'))
+        message = json.loads(body.decode("utf-8"))
 
-        text_body = message.get('text_body', None)
-        export_id = message.get('export_id', None)
+        text_body = message.get("text_body", None)
+        export_id = message.get("export_id", None)
 
         PROMPT_STR = "".join(PROMPT)
         prompt = PROMPT_STR + "" + text_body
@@ -27,8 +27,8 @@ def get_sentiment(ch, method, properties, body):
 
         json_content = json.loads(content)
 
-        sentiment: str = json_content['sentiment']
-        summary: str = json_content['summary']
+        sentiment: str = json_content["sentiment"]
+        summary: str = json_content["summary"]
 
         logger.info(sentiment)
         logger.info(summary)
@@ -45,47 +45,46 @@ def get_sentiment(ch, method, properties, body):
 
             if export_result.processed_count == 1:
                 try:
-                    message = 'File export started successfully.'
-                    notify_url = f"{SOCKET_URL}/notify?trigger=NOTIFICATION"
-                    requests.get(
-                        f"{notify_url}&message={message}"
+                    message = "File export started successfully."
+                    notify_url = (
+                        f"{SOCKET_URL}/notify?trigger=NOTIFICATION"
                     )
+                    requests.get(f"{notify_url}&message={message}")
                 except Exception as api_error:
                     logger.error(api_error)
-                    logger.error('Failed')
+                    logger.error("Failed")
 
-            if export_result.processed_count == export_result.record_count:
+            if (
+                export_result.processed_count
+                == export_result.record_count
+            ):
                 try:
-                    message = 'File export completed successfully.'
-                    notify_url = f"{SOCKET_URL}/notify?trigger=NOTIFICATION"
-                    requests.get(
-                        f"{notify_url}&message={message}"
+                    message = "File export completed successfully."
+                    notify_url = (
+                        f"{SOCKET_URL}/notify?trigger=NOTIFICATION"
                     )
+                    requests.get(f"{notify_url}&message={message}")
                 except Exception as api_error:
                     logger.error(api_error)
-                    logger.error('Failed')
+                    logger.error("Failed")
 
             try:
-                requests.get(
-                    f"{SOCKET_URL}/notify?trigger=REFETCH"
-                )
+                requests.get(f"{SOCKET_URL}/notify?trigger=REFETCH")
 
             except Exception as api_error:
                 logger.error(api_error)
-                logger.error('Failed')
+                logger.error("Failed")
 
-            logger.info('Export updated')
+            logger.info("Export updated")
 
     except Exception as e:
         try:
-            message = 'Something went wrong with this item.'
+            message = "Something went wrong with this item."
             notify_url = f"{SOCKET_URL}/notify?trigger=NOTIFICATION"
-            requests.get(
-                f"{notify_url}&message={message}"
-            )
+            requests.get(f"{notify_url}&message={message}")
         except Exception as api_error:
             logger.error(api_error)
-            logger.error('Failed')
+            logger.error("Failed")
 
         logger.error("An error occurred:", str(e))
         logger.error("Stack trace:", traceback.format_exc())

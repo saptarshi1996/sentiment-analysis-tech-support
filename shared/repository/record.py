@@ -63,5 +63,5 @@ def get_sentiments(export_id):
         "positive": positive,
         "negative": negative,
         "neutral": neutral,
-        "mixed": mixed
+        "mixed": mixed,
     }

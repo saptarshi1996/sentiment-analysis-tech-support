@@ -5,7 +5,7 @@ from fastapi import (
     WebSocket,
     HTTPException,
     WebSocketDisconnect,
-    Query
+    Query,
 )
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -52,18 +52,17 @@ def get():
 
 @app.get(
     "/notify",
-    tags=['Notify'],
-    description='Response to socket client'
+    tags=["Notify"],
+    description="Response to socket client",
 )
 async def notify_handler(
-    trigger: str = Query(''),
-    message: str = Query(''),
+    trigger: str = Query(""),
+    message: str = Query(""),
 ):
     try:
-        full_message = json.dumps({
-            'trigger': trigger,
-            'message': message
-        })
+        full_message = json.dumps(
+            {"trigger": trigger, "message": message}
+        )
 
         # Send the message to clients
         for client in clients:
@@ -74,4 +73,6 @@ async def notify_handler(
         return {"status": "Notification sent"}
     except Exception as e:
         logger.error(e)
-        raise HTTPException(status_code=500, detail='Unable to send message')
+        raise HTTPException(
+            status_code=500, detail="Unable to send message"
+        )
