@@ -23,7 +23,9 @@ app.add_middleware(
 
 
 @app.get(
-    "/api/healthcheck", tags=["Health"], description="Health check"
+    "/api/healthcheck",
+    tags=["Health"],
+    description="Health check",
 )
 def health_check():
     rabbitmq_status = check_rabbitmq_health()
