@@ -7,7 +7,11 @@ from shared.models.export import Export
 from shared.models.record import Record
 
 
-def list_exports(page: int, limit: int, file_name: str = None):
+def list_exports(
+    page: int,
+    limit: int,
+    file_name: str = None,
+):
     db = get_db()
 
     offset = (page - 1) * limit
