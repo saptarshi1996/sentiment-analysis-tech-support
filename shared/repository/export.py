@@ -8,9 +8,9 @@ from shared.models.record import Record
 
 
 def list_exports(
-    page: int,
-    limit: int,
-    file_name: str = None,
+    page,
+    limit,
+    file_name=None,
 ):
     db = get_db()
 
@@ -72,14 +72,14 @@ def update_processed_count(export_id):
     db.close()
 
 
-def get_export_by_id(export_id: int):
+def get_export_by_id(export_id):
     db = get_db()
     result = db.query(Export).filter(Export.id == export_id).first()
     db.close()
     return result
 
 
-def get_records_by_export_id(export_id: int):
+def get_records_by_export_id(export_id):
     db = get_db()
     result = (
         db.query(Record).filter(Record.export_id == export_id).all()

@@ -8,7 +8,7 @@ from shared.config.environment import GROQ_API_KEY
 client = Groq(api_key=GROQ_API_KEY)
 
 
-def get_completion(content: str):
+def get_completion(content):
     try:
         chat_completion = client.chat.completions.create(
             messages=[

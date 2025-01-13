@@ -18,10 +18,10 @@ def create_record(sentiment, summary, export_id):
 
 
 def list_records(
-    page: int,
-    limit: int,
-    export_id: int = None,
-    sentiment: str = None,
+    page,
+    limit,
+    export_id,
+    sentiment,
 ):
     db = get_db()
 

@@ -11,7 +11,7 @@ from shared.config.environment import (
 )
 
 
-def send_message(queue_name: str, rows, export_new):
+def send_message(queue_name, rows, export_new):
     if queue_name not in QUEUE:
         return
 
