@@ -59,7 +59,7 @@ async def sentiment(
 ):
     try:
 
-        sentiments = get_sentiments(export_id)
+        sentiments = get_sentiments(export_id=export_id)
 
         logger.info(f"Positive: {sentiments['positive']}")
         logger.info(f"Negative: {sentiments['negative']}")
