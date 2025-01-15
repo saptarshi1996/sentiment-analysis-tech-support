@@ -31,7 +31,6 @@ export const useExportDataQuery = (params) => {
       console.log(url);
 
       const response = await axios.get(url);
-      console.log(response.data);
       return response.data;
     } catch (err) {
       return err.response || err.message || 'Error';
@@ -57,7 +56,6 @@ export const useExportCSVMutation = () => {
 
       const exportURL = `export/${export_id}/csv`;
       const exportResponse = await axios.get(exportURL);
-      console.log(exportResponse);
       return exportResponse?.data;
     } catch (err) {
       return err.response || err.message || 'Error';
