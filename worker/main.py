@@ -18,6 +18,7 @@ PREFETCH_COUNT = 1
 RECONNECT_DELAY = 5
 
 
+# Consume message
 def consume_messages():
     while True:
         try:
@@ -77,5 +78,6 @@ async def root():
 
 app.include_router(router)
 
+# Run Worker
 thread = threading.Thread(target=consume_messages, daemon=True)
 thread.start()
