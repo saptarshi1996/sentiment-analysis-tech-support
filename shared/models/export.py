@@ -13,7 +13,9 @@ class Export(Base):
     record_count = Column(Integer, default=None)
     processed_count = Column(Integer, default=None)
     created_at = Column(
-        TIMESTAMP, server_default=func.now(), nullable=False
+        TIMESTAMP,
+        server_default=func.now(),
+        nullable=False,
     )
     updated_at = Column(
         TIMESTAMP,
