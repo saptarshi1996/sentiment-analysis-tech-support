@@ -34,5 +34,4 @@ class Record(Base):
     )
     deleted_at = Column(TIMESTAMP, nullable=True)
 
-    # Many-to-one relationship with exports
     export = relationship("Export", back_populates="records")
