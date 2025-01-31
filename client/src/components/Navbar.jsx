@@ -14,9 +14,7 @@ import {
 export default function Navbar() {
   const navigate = useNavigate();
 
-  const handleNavigation = path => {
-    navigate(path);
-  }
+  const handleNavigation = path => navigate(path);
 
   return (
     <AppBar position="static" color="primary" sx={{ mb: 4, boxShadow: 'none' }}>
