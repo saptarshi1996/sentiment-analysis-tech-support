@@ -20,8 +20,7 @@ def list_exports(
     if file_name:
         query = query.filter(Export.file_name.like(f"%{file_name}%"))
 
-    total = query.count()
-    exports = query.offset(offset).limit(limit).all()
+    total, exports = query.count(), query.offset(offset).limit(limit).all()
 
     db.close()
 

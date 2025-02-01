@@ -35,8 +35,7 @@ def list_records(
     if sentiment is not None:
         query = query.filter(Record.sentiment == sentiment)
 
-    total = query.count()
-    records = query.offset(offset).limit(limit).all()
+    total, records = query.count(), query.offset(offset).limit(limit).all()
 
     db.close()
 
