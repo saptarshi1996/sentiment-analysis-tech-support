@@ -47,9 +47,7 @@ async def list_export(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@export_router.post(
-    "", tags=["Export"], description="Upload feedback CSV"
-)
+@export_router.post("", tags=["Export"], description="Upload feedback CSV")
 async def post_export(file: UploadFile = File(...)):
     try:
         if file.content_type != "text/csv":
