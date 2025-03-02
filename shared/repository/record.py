@@ -1,5 +1,4 @@
 from shared.config.db import get_db
-
 from shared.models.record import Record
 
 
