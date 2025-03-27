@@ -1,6 +1,6 @@
 import json
-import traceback
 import requests
+import traceback
 
 from shared.helpers.groq import get_completion
 from shared.config.environment import SOCKET_URL
