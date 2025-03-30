@@ -11,13 +11,13 @@ from shared.helpers.queue import check_rabbitmq_health
 
 from worker.workers.get_sentiment import get_sentiment
 
+PREFETCH_COUNT = 1
+RECONNECT_DELAY = 5
+
 app = FastAPI()
 router = APIRouter()
 
 queue_name = QUEUE["GET_SENTIMENT"]
-
-PREFETCH_COUNT = 1
-RECONNECT_DELAY = 5
 
 
 # Consume message
