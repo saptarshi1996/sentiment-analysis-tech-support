@@ -13,7 +13,9 @@ from worker.workers.get_sentiment import get_sentiment
 
 app = FastAPI()
 router = APIRouter()
+
 queue_name = QUEUE["GET_SENTIMENT"]
+
 PREFETCH_COUNT = 1
 RECONNECT_DELAY = 5
 
