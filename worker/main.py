@@ -15,6 +15,7 @@ from shared.helpers.queue import check_rabbitmq_health
 
 from worker.workers.get_sentiment import get_sentiment
 
+HEARTBEAT = 60
 PREFETCH_COUNT, RECONNECT_DELAY = 1, 5
 
 app = FastAPI()
@@ -31,7 +32,7 @@ def consume_messages():
                 pika.ConnectionParameters(
                     host=RABBITMQ_HOST,
                     port=RABBITMQ_PORT,
-                    heartbeat=60,
+                    heartbeat=HEARTBEAT,
                 )
             )
             channel = connection.channel()
