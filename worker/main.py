@@ -11,8 +11,7 @@ from shared.helpers.queue import check_rabbitmq_health
 
 from worker.workers.get_sentiment import get_sentiment
 
-PREFETCH_COUNT = 1
-RECONNECT_DELAY = 5
+PREFETCH_COUNT, RECONNECT_DELAY = 1, 5
 
 app = FastAPI()
 router = APIRouter()
