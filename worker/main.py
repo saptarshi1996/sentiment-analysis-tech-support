@@ -2,7 +2,11 @@ import pika
 import time
 import threading
 
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import (
+    FastAPI,
+    APIRouter,
+    HTTPException
+)
 
 from shared.config.environment import RABBITMQ_HOST, RABBITMQ_PORT
 from shared.config.logger import logger
