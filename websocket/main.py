@@ -24,6 +24,7 @@ app.add_middleware(
 )
 
 
+# Notification class
 class Notification(BaseModel):
     client_id: str
     message: str
