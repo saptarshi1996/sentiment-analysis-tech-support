@@ -25,7 +25,7 @@ app = FastAPI()
 router = APIRouter()
 
 
-# Consume message
+# Consume incoming messages
 def consume_messages():
     while True:
         try:
