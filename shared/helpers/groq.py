@@ -5,6 +5,10 @@ from groq import Groq
 from shared.config.logger import logger
 from shared.config.environment import GROQ_API_KEY
 
+MAX_TOKEN = 8192
+TEMPERATURE = 0
+MODEL = "llama-8b-8192"
+
 client = Groq(api_key=GROQ_API_KEY)
 
 
@@ -17,9 +21,9 @@ def get_completion(content):
                     "content": content,
                 }
             ],
-            model="llama3-8b-8192",
-            temperature=0,
-            max_tokens=8192
+            model=MODEL,
+            temperature=TEMPERATURE,
+            max_tokens=MAX_TOKEN
         )
 
         message = chat_completion.choices[0].message
