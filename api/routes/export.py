@@ -25,9 +25,7 @@ async def list_export(
 ):
     try:
         exports, total = list_exports(page, limit, file_name)
-
-        has_prev = page > 1
-        has_next = (page * limit) < total
+        has_prev, has_next = page > 1, (page * limit) < total
 
         return {
             "exports": exports,
