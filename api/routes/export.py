@@ -17,7 +17,11 @@ from shared.repository.export import (
 export_router = APIRouter(prefix="/api/export")
 
 
-@export_router.get("", tags=["Export"], description="List exports")
+@export_router.get(
+    "",
+    tags=["Export"],
+    description="List exports"
+)
 async def list_export(
     page: int = Query(1, get=1),
     limit: int = Query(20, get=20),
@@ -45,7 +49,11 @@ async def list_export(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@export_router.post("", tags=["Export"], description="Upload feedback CSV")
+@export_router.post(
+    "",
+    tags=["Export"],
+    description="Upload feedback CSV"
+)
 async def post_export(file: UploadFile = File(...)):
     try:
         if file.content_type != "text/csv":
@@ -76,12 +84,14 @@ async def post_export(file: UploadFile = File(...)):
             export_new=export_new,
         )
 
-        response_message = [
+        response_message_list = [
             "Analyzing sentiments. ",
             "Download export from the table.",
         ]
 
-        return {"message": "".join(response_message)}
+        response_message = "".join(response_message_list)
+
+        return {"message": response_message}
     except Exception as e:
         logger.error("An error occurred:", str(e))
         logger.error("Stack trace:", traceback.format_exc())

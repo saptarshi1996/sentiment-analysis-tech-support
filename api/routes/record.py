@@ -56,7 +56,8 @@ async def list_record(
 )
 async def sentiment(
     export_id: int = Query(
-        None, description="Optional to filter record"
+        None,
+        description="Optional to filter record"
     ),
 ):
     try:
