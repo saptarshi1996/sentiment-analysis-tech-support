@@ -28,8 +28,7 @@ async def list_record(
             page, limit, export_id, sentiment
         )
 
-        has_prev = page > 1
-        has_next = (page * limit) < total
+        has_prev, has_next = page > 1, (page * limit) < total
 
         page_info = {
             "page": page,
@@ -73,9 +72,7 @@ async def sentiment(
         ]
 
         prompt = "".join(content_prompt)
-
         logger.info(prompt)
-
         content = get_completion(content=prompt)
 
         return {"sentiments": sentiments, "summary": content}
