@@ -63,13 +63,19 @@ async def sentiment(
 
         sentiments = get_sentiments(export_id=export_id)
 
+        # get the sentiment values
+        positive = sentiments.get('positive')
+        negative = sentiments.get('negative')
+        neutral = sentiments.get('neutral')
+        mixed = sentiments.get('mixed')
+
         content_prompt = [
             "Give a summary from the count of user sentiments.",
             "This will help business by using the data.",
-            f"There {sentiments['positive']} positive feedback.",
-            f"There {sentiments['negative']} negative feedback.",
-            f"There {sentiments['neutral']} neutral feedback.",
-            f"There {sentiments['mixed']} mixed feedback.",
+            f"There {positive} positive feedback.",
+            f"There {negative} negative feedback.",
+            f"There {neutral} neutral feedback.",
+            f"There {mixed} mixed feedback.",
             "A single line without here you are looking or other.",
             "Also add how it affects the business.",
         ]
