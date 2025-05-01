@@ -1,4 +1,10 @@
-from sqlalchemy import Column, Integer, String, TIMESTAMP, func
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    func
+)
 from sqlalchemy.orm import relationship
 
 from shared.config.db import Base
