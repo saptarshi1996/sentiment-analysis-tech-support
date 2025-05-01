@@ -4,6 +4,9 @@ rabbitsql:
 dev:
 	docker compose up --force-recreate --build -d
 
+ui:
+	npm --prefix client run dev
+
 down:
 	docker compose down
 
