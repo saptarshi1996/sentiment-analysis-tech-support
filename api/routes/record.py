@@ -61,11 +61,6 @@ async def sentiment(
 
         sentiments = get_sentiments(export_id=export_id)
 
-        logger.info(f"Positive: {sentiments['positive']}")
-        logger.info(f"Negative: {sentiments['negative']}")
-        logger.info(f"Neutral: {sentiments['neutral']}")
-        logger.info(f"Mixed: {sentiments['mixed']}")
-
         content_prompt = [
             "Give a summary from the count of user sentiments.",
             "This will help business by using the data.",
