@@ -25,7 +25,10 @@ async def list_record(
     try:
 
         records, total = list_records(
-            page, limit, export_id, sentiment
+            page,
+            limit,
+            export_id,
+            sentiment
         )
 
         has_prev, has_next = page > 1, (page * limit) < total
