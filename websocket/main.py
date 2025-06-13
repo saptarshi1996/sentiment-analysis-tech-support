@@ -30,7 +30,7 @@ class Notification(BaseModel):
     message: str
 
 
-clients = []  # Store credentials of client sockets
+clients = []
 
 
 @app.websocket("/ws")

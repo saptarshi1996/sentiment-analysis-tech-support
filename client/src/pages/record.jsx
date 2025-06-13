@@ -39,8 +39,9 @@ const sentiments = [
 export default function Record() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const exportID = queryParams.get('export_id');
 
+  const exportID = queryParams.get('export_id');
+  
   const [page, setPage] = useState(1);
   const [selectedSentiment, setSelectedSentiment] = useState('');
 
